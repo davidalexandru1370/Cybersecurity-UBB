@@ -1,0 +1,7 @@
+{
+    "r.rterm.option": [],
+    "r.bracketedPaste": true,
+    "r.plot.useHttpgd": true,
+    "r.lsp.path": "path_to_R_language_server" // Optional, for better code intelligence
+}
+  

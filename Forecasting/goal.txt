@@ -1,0 +1,7 @@
+Some other forecasting methods might be involved in the solution:
+
+Simple forecasting methods (mean, naive, seasonal naive, drift)
+Fitted values, residuals and residual diagnostics
+Autocorrelation tests (Ljung-Box and Box-Pierce)
+
+ARIMA (Autoregressive Integrated Moving Average)
