@@ -1,0 +1,136 @@
+1. Try to understand the data, by plotting it and looking at the summary statistics, trend, seasonality, cycles and stationarity, geom_point
+    When visually analyzing a time series plot, there are three
+    important terms that can be used to describe it.
+        trend - describes a long term increase or decrease in the data,
+        even if it is not linear.
+        seasonal pattern - appears when the data values are affected
+        by factors related to the calendar like time of the year or day of
+        the week. Seasonality always has a fixed known frequency,
+        which can be at most a year.
+        cycle - when there are rises and falls, but not of fixed
+        frequency, caused in general by economic conditions. Their
+        duration is usually at least 2 years.
+
+    There is a fourth term that can be used to characterize time
+    series data: stationarity.
+        A time series is stationary if its statistical properties (mean,
+        standard deviation) do not depend on the time at which the
+        series is observed. This means that the time series cannot
+        have trend or seasonality.
+    Whether a time series is stationary or not, can be inspected
+    visually, but there are also statistical tests that can be used to
+    check this (these will be discussed later).
+
+    In case of seasonal data, determining the length of a season is
+    very important (it is a value which is used later in analysis).
+    Another important thing to determine in case of seasonal data
+    is whether the magnitude is constant over time (we call this
+    additive effect) or whether it grows or shrinks (multiplicative
+    effect).
+
+2.
+    Scatterplots help us visualize relationships between time
+    series. In the previous example we could see that electricity
+    demand increases when temperatures increase (people turn on
+    air-conditioning), but to a limited extent, demand increases
+    when temperatures are low (due to some using electricity for
+    heating).
+    If we want a numerical value for how strong is the relationship
+    between two variable we can compute the correlation
+    coefficient.
+    Correlation takes values between -1 (strong negative
+    correlation) and 1 (strong positive correlation). Values around
+    0 mean that the variables are not correlated.
+    Correlations in R can be computed with the cor function.
+    There are several types of correlations, the cor function can
+    compute 3 of them:
+    Pearson (the default) - measures linear relationship
+    Spearman - measures the strength of monotonic association
+    between two variables
+    Kendall - Similar to Spearman (as in works on ranks), but it is
+    better when there are few data points and many rank ties.
+    Pearson correlation for the electricity demand and temperature
+    data is 0.26, which is quite low. The reason for this is that
+    the relationship between these two variables is not linear.
+    Spearman and Kendall correlations are even lower (0.11 and
+    0.08).
+    This shows that it is important to plot the data as well, not
+    just rely on numerical correlation values.
+    Correlations should be used very carefully when we work with
+    time series!!!
+    Two time series (for which we compute correlations) are
+    actually connected by time, which might influence (increase)
+    the results.
+    This is especially true in case of time series which have a
+    trend.
+    Spurious Correlations:
+    https://www.tylervigen.com/spurious-correlations
+    Nice reading and example about what is the problem when
+    computing correlation between two trended time series:
+    https://www.svds.com/
+    avoiding-common-mistakes-with-time-series/
+    We might want to visualize scatter plots between pairs of
+    variables, which can be done with the ggpairs function, for
+    which we need to install the GGally package.
+    ggpairs takes the time series to be considered as columns
+    (needs wide format) but we have the long one. So we will use
+    pivot wider to transform it first.
+    ggpairs by default considers all attribute pairs. But we have
+    the Quarter attribute which should not be considered. So we
+    will use the columns parameter to show which attributes to
+    consider.
+
+Lecture 4:
+    Time series visualizations
+    Lag plots
+    Autocorrelation
+    Stationary time series
+    Differencing
+
+Lecture 5-6:
+    Time series transformations
+    Time series decomposition
+    These are transformations to remove the change ( increase
+    and decrease) in the variation of the data.
+    The most frequently used mathematical transformations are:
+    Square root
+    Cube root
+    Take the logarithm
+    The above order is the order of strength for these
+    transformations.
+    Logarithms are the most interpretable: a change in the log
+    value is percentage change in the original data.
+    We have discussed that in case of a time series we can identify
+    a trend, season and cycle. When we talk about decomposing
+    a time series, we consider the cycle and trend together, in a
+    component called trend-cycle (or simply just trend).
+    Consequently, a time series yt can be considered as being
+    made of three components:
+    trend (or trend-cycle) - T,
+    seasonality - S
+    remainder - R.
+    We can assume an additive decomposition and consider that:
+    yt = St + Tt + Rt
+    where y are the data, S is the seasonal component, T is the
+    trend component, and R is the remainder, all in period t .
+    Alternatively, we can assume a multiplicative decomposition,
+    and consider that:
+    yt = St ∗Tt ∗Rt
+    Multiplicative decomposition is a better alternative when the
+    seasonal or cyclic fluctuations vary with the level of the time
+    series (common in case of economic series). Alternatively, we
+    can use a Box-Cox transformation on it, and use an additive
+    decomposition.
+    When there is no such variation, additive decomposition is
+    appropriate.
+
+Lecture 7:
+    Time series features
+    The forecasting workflow
+
+Lecture 9:
+    Time series regression models
+
+Lecture 10:
+    Exponential smoothing
+    ARIMA models
