@@ -155,5 +155,174 @@ arima_forecast |>
   )
 
 # Save the forecast plot
-ggsave(paste0(folder_path, "/electric_prod_forecast.png"), 
+ggsave(paste0(folder_path, "/electric_prod_forecast.png"),
        width = 10, height = 6, dpi = 300)
+
+simple_models <- electric_prod |>
+  model(
+    Mean = MEAN(Production),
+    Naive = NAIVE(Production),
+    SNaive = SNAIVE(Production ~ lag("year")),
+    Drift = RW(Production ~ drift())
+  )
+
+# Generate forecasts for each method
+simple_forecasts <- simple_models |>
+  forecast(h = "1 year")
+
+# Plot all forecasts
+simple_forecasts |>
+  autoplot(electric_prod, level = NULL) +
+  labs(
+    title = "Comparison of Simple Forecasting Methods",
+    x = "Year",
+    y = "Production Index"
+  ) +
+  theme_minimal()
+
+# Save the comparison plot
+ggsave(paste0(folder_path, "/simple_forecasts_comparison.png"), 
+       width = 10, height = 6, dpi = 300)
+
+# Get fitted values and residuals for each model
+augmented <- simple_models |>
+  augment()
+
+# Residual diagnostics
+residual_plots <- augmented |>
+  pivot_longer(
+    cols = c(.fitted, .resid),
+    names_to = "type",
+    values_to = "value"
+  ) |>
+  ggplot(aes(x = Date, y = value)) +
+  geom_line() +
+  facet_grid(type ~ .model, scales = "free_y") +
+  labs(title = "Fitted Values and Residuals for Each Model") +
+  theme_minimal()
+
+# Save residual plots
+ggsave(paste0(folder_path, "/residual_diagnostics.png"), 
+       width = 12, height = 8, dpi = 300)
+
+# Ljung-Box and Box-Pierce tests for each model
+for(model_name in c("Mean", "Naive", "SNaive", "Drift")) {
+  residuals <- augmented |>
+    filter(.model == model_name) |>
+    pull(.resid)
+  
+  cat("\nModel:", model_name, "\n")
+  cat("Ljung-Box test:\n")
+  print(Box.test(residuals, type = "Ljung-Box"))
+  cat("Box-Pierce test:\n")
+  print(Box.test(residuals, type = "Box-Pierce"))
+}
+# Simple Forecasting Methods:
+# MEAN: Forecasts using the historical mean
+# NAIVE: Uses the last observed value for all forecasts
+# SNAIVE: Seasonal naive method using the value from the same season last year
+# Drift: Allows the forecasts to increase or decrease over time by the average change
+# Fitted Values and Residuals:
+# Fitted values show what each model predicted for the historical data
+# Residuals are the differences between actual and fitted values
+# The plots help visualize how well each model fits the data
+# Autocorrelation Tests:
+# Ljung-Box and Box-Pierce tests check for autocorrelation in residuals
+# Null hypothesis: Residuals are independently distributed
+# If p-value < 0.05, residuals have significant autocorrelation (model might be inadequate)
+# Box-Pierce is simpler but Ljung-Box is generally preferred for small samples
+# The output will help you:
+# Compare the accuracy of different forecasting methods
+# Check if residuals look random (they should)
+# Determine if there's remaining autocorrelation in residuals (there shouldn't be)
+# Choose the best simple forecasting method for your data
+
+extended_models <- electric_prod |>
+  model(
+    # Simple methods (already used)
+    Mean = MEAN(Production),
+    Naive = NAIVE(Production),
+    SNaive = SNAIVE(Production ~ lag("year")),
+    Drift = RW(Production ~ drift()),
+    
+    # Exponential Smoothing methods
+    ETS_ANN = ETS(Production ~ error("A") + trend("N") + season("N")),
+    ETS_AAN = ETS(Production ~ error("A") + trend("A") + season("N")),
+    ETS_Auto = ETS(Production),  # Automatic selection
+    
+    # ARIMA variants
+    ARIMA_Auto = ARIMA(Production),  # Automatic ARIMA
+    ARIMA_201 = ARIMA(Production ~ pdq(2,0,1)),  # Manual ARIMA specification
+    
+    # Neural Network methods
+    NNETAR = NNETAR(Production),
+    
+    # Regression based
+    TSLM = TSLM(Production ~ trend() + season()),
+    
+    # Prophet model (Facebook's forecasting tool)
+    Prophet = prophet(Production ~ season("year"))
+  )
+
+# Generate forecasts
+extended_forecasts <- extended_models |>
+  forecast(h = "1 year")
+
+# Compare accuracy of all models
+accuracy_comparison <- accuracy(extended_forecasts, electric_prod)
+print(accuracy_comparison)
+
+# Plot forecasts from all models
+extended_forecasts |>
+  autoplot(electric_prod, level = NULL) +
+  labs(
+    title = "Comparison of Different Forecasting Methods",
+    x = "Year",
+    y = "Production Index"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+
+# Save the comparison plot
+ggsave(paste0(folder_path, "/extended_forecasts_comparison.png"), 
+       width = 12, height = 8, dpi = 300)
+
+# Cross-validation for model comparison
+cv_results <- electric_prod |>
+  stretch_tsibble(.init = 3650) |>  # Use last 10 years for testing
+  model(
+    ETS = ETS(Production),
+    ARIMA = ARIMA(Production),
+    NNETAR = NNETAR(Production),
+    TSLM = TSLM(Production ~ trend() + season())
+  ) |>
+  forecast(h = "1 year") |>
+  accuracy(electric_prod)
+
+print(cv_results)
+
+# Exponential Smoothing (ETS):
+# ETS_ANN: Simple exponential smoothing
+# ETS_AAN: Holt's linear method
+# ETS_Auto: Automatic selection of best ETS model
+# Good for data with trend and/or seasonal patterns
+# ARIMA Variants:
+# ARIMA_Auto: Automatic ARIMA selection
+# ARIMA_201: Manual ARIMA specification
+# Good for stationary data or data that can be made stationary
+# Neural Network (NNETAR):
+# Neural network time series forecasts
+# Good for complex, non-linear patterns
+# Can capture relationships that linear models miss
+# 4. Regression Based (TSLM):
+# Time series linear regression
+# Includes trend and seasonal components
+# Good for simple linear relationships
+# 5. Prophet:
+# Facebook's forecasting tool
+# Handles seasonality and holidays well
+# Good for daily data with strong seasonal patterns
+# The code also includes:
+# Accuracy comparisons between all models
+# Cross-validation to assess model performance
+# Visualization of all forecasts
