@@ -1,5 +1,7 @@
 library(fpp3)
 library(tidyverse)
+library(tseries)
+
 folder_path <- "../Desktop/folders/Cybersecurity-UBB/Forecasting/Report"
 electricity_data_df <- read_csv(paste0(folder_path, "/Electric_Production.csv"), col_names = TRUE)
 
@@ -101,3 +103,52 @@ decomposed |>
 # Save the plot
 ggsave(paste0(folder_path, "/electric_prod_stl_decomposition.png"), 
        width = 10, height = 8, dpi = 300)
+
+
+#Check for Stationarity
+#Augmented Dickey-Fuller Test
+#Null Hypothesis: Time Series is non-stationary.
+
+adf.test(electric_prod$Production)
+#The p-value of 0.01 is less than the common significance level of 0.05.
+#This indicates that we can reject the null hypothesis.
+#This implies that the time series is stationary.
+
+#Model Selection
+
+arima_fit <- electric_prod |>
+  mutate(Date = yearmonth(Date)) |>
+  index_by(Date) |>
+  summarise(Production = mean(Production)) |>
+  select(Date, Production) |>
+  model(
+    auto_arima = ARIMA(Production)
+  )
+
+# Check model summary
+report(arima_fit)
+
+# Generate forecasts
+arima_forecast <- arima_fit |>
+  forecast(h = "1 year")
+
+# Plot the forecasts
+arima_forecast |>
+  autoplot(electric_prod) +
+  labs(
+    title = "ARIMA Forecast for Electric Production",
+    x = "Year",
+    y = "Production Index"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 0),
+    legend.position = "bottom"
+  )
+
+# Save the forecast plot
+ggsave(paste0(folder_path, "/electric_prod_forecast.png"), 
+       width = 10, height = 6, dpi = 300)
+
+
+
