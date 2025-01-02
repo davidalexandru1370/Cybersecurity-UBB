@@ -128,6 +128,14 @@ arima_fit <- electric_prod |>
 # Check model summary
 report(arima_fit)
 
+# Get residuals from ARIMA model
+arima_residuals <- augment(arima_fit)$.resid
+
+# ADF test on ARIMA residuals
+adf_residuals <- adf.test(arima_residuals)
+print("ADF Test on ARIMA Residuals:")
+print(adf_residuals)
+
 # Generate forecasts
 arima_forecast <- arima_fit |>
   forecast(h = "1 year")
@@ -149,6 +157,3 @@ arima_forecast |>
 # Save the forecast plot
 ggsave(paste0(folder_path, "/electric_prod_forecast.png"), 
        width = 10, height = 6, dpi = 300)
-
-
-
