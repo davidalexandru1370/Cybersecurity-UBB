@@ -1,12 +1,19 @@
-library(fpp3)
-library(tidyverse)
-library(tseries)
+library(fpp3)        # For forecasting functions
+library(tidyverse)   # For data manipulation
+library(tsibble)     # For time series data structures
+library(feasts)      # For time series features
+library(fable)       # For forecasting models
+library(lubridate)   # For date handling
+library(prophet)     # For Prophet model
+library(fable.prophet) # For Prophet integration with fable
+library(tseries) # For adf test
+library(TTR) # For EMA
+
 
 folder_path <- "../Desktop/folders/Cybersecurity-UBB/Forecasting/Report"
 electricity_data_df <- read_csv(paste0(folder_path, "/Electric_Production.csv"), col_names = TRUE)
 
-
-electric_prod <- electricity_data |>
+electric_prod <- electricity_data_df |>
   mutate(
     Date = as.Date(DATE, format = "%m/%d/%Y"),
     Production = IPG2211A2N
@@ -109,11 +116,108 @@ ggsave(paste0(folder_path, "/electric_prod_stl_decomposition.png"),
 #Augmented Dickey-Fuller Test
 #Null Hypothesis: Time Series is non-stationary.
 
-adf.test(electric_prod$Production)
+electric_prod |>
+  mutate(Date = yearmonth(Date)) |>
+  index_by(Date) |>
+  summarise(Production = mean(Production)) |>
+  select(Date, Production) |>
+  ACF(lag_max = 12) |>
+  autoplot() + labs(title = "Autocorrelation of Electric production", x = "Lag", y = "Autocorrelation")
+
+ggsave(paste0(folder_path, "/electric_prod_acf.png"), 
+       width = 10, height = 6, dpi = 300)
+
+# The autocorrelation plot shows that the data is not stationary, as the autocorrelations are not
+# constant over time.
+
+
+# e) Use the KPSS test to check if the data is stationary.
+
+electric_prod |>
+  mutate(Date = yearmonth(Date)) |>
+  index_by(Date) |>
+  summarise(Production = mean(Production)) |>
+  select(Date, Production) |>
+  features(Production, unitroot_kpss) |>
+  print()
+
+adf.test(electric_prod$Production, k=12)
 #The p-value of 0.01 is less than the common significance level of 0.05.
 #This indicates that we can reject the null hypothesis.
-#This implies that the time series is stationary.
+#This implies that the time series is non-stationary.
 
+# First, let's try Box-Cox transformation
+lambda <- electric_prod |>
+  features(Production, features = guerrero)
+
+# Apply Box-Cox transformation and first differencing
+electric_prod_stationary <- electric_prod |>
+  mutate(
+    box_cox = box_cox(Production, lambda)
+  )
+
+# Plot the transformed series
+electric_prod_stationary |>
+  pivot_longer(cols = c(Production, box_cox),
+               names_to = "transformation",
+               values_to = "value") |>
+  ggplot(aes(x = Date, y = value)) +
+  geom_line() +
+  facet_wrap(~transformation, scales = "free_y") +
+  labs(title = "Original and Transformed Electric Production",
+       x = "Year",
+       y = "Value")
+
+# Save the transformation plot
+ggsave(paste0(folder_path, "/electric_prod_transformations.png"), 
+       width = 12, height = 8, dpi = 300)
+
+
+electric_prod_boxcox_ma <- electric_prod_stationary |>
+  select(Date, box_cox) |>
+  mutate(
+    MA = slider::slide_dbl(box_cox, mean, .before = 11, .after = 0, .complete = TRUE),
+    Production = box_cox - MA
+  ) |>
+  select(Date, Production)
+
+#plot the detrended data
+ggplot(electric_prod_boxcox_ma) +
+  geom_line(aes(x = Date, y = Production), color = "blue") +
+  labs(title = "Detrended Electric Production",
+       x = "Year",
+       y = "Production Index")
+
+electric_prod_box_ma_ed_mean <- electric_prod_boxcox_ma |>
+  mutate(
+    EMA = EMA(Production, n = 12, ratio = 0)
+  )
+
+ed_mean = mean(electric_prod_box_ma_ed_mean$EMA, na.rm = TRUE)
+
+electric_prod_box_ma_ed <- electric_prod_box_ma_ed_mean |>
+  mutate(
+    Production = Production - ed_mean
+  ) |>
+  select(Date, Production)
+  
+
+electric_prod_box_ma_ed |>
+  ggplot(aes(x = Date, y = Production)) +
+  geom_line(color = "blue") +
+  labs(title = "Detrended Electric Production with Exponential Decay",
+       x = "Year",
+       y = "Production Index")
+
+#perform ADF-test again
+electric_prod_box_ma_ed |>
+  mutate(
+    Date = yearmonth(Date),
+    Production = replace_na(Production, 0)
+  ) |>
+  index_by(Date) |>
+  pull(Production) |>
+  adf.test(k=12)
 #Model Selection
 
 arima_fit <- electric_prod |>
@@ -157,6 +261,12 @@ arima_forecast |>
 # Save the forecast plot
 ggsave(paste0(folder_path, "/electric_prod_forecast.png"),
        width = 10, height = 6, dpi = 300)
+
+electric_prod <- electric_prod |>
+  mutate(Date = yearmonth(Date)) |>
+  index_by(Date) |>
+  summarise(Production = mean(Production)) |>
+  select(Date, Production)
 
 simple_models <- electric_prod |>
   model(
@@ -237,6 +347,7 @@ for(model_name in c("Mean", "Naive", "SNaive", "Drift")) {
 # Determine if there's remaining autocorrelation in residuals (there shouldn't be)
 # Choose the best simple forecasting method for your data
 
+
 extended_models <- electric_prod |>
   model(
     # Simple methods (already used)
@@ -287,19 +398,6 @@ extended_forecasts |>
 ggsave(paste0(folder_path, "/extended_forecasts_comparison.png"), 
        width = 12, height = 8, dpi = 300)
 
-# Cross-validation for model comparison
-cv_results <- electric_prod |>
-  stretch_tsibble(.init = 3650) |>  # Use last 10 years for testing
-  model(
-    ETS = ETS(Production),
-    ARIMA = ARIMA(Production),
-    NNETAR = NNETAR(Production),
-    TSLM = TSLM(Production ~ trend() + season())
-  ) |>
-  forecast(h = "1 year") |>
-  accuracy(electric_prod)
-
-print(cv_results)
 
 # Exponential Smoothing (ETS):
 # ETS_ANN: Simple exponential smoothing
@@ -323,6 +421,4 @@ print(cv_results)
 # Handles seasonality and holidays well
 # Good for daily data with strong seasonal patterns
 # The code also includes:
-# Accuracy comparisons between all models
-# Cross-validation to assess model performance
 # Visualization of all forecasts
