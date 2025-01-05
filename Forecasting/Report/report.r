@@ -84,32 +84,7 @@ summary(electric_prod$Production)
 # Decompose the time series
 #electric_prod
 #is_regular(electric_prod)
-electric_prod
-decomposed <- electric_prod |>
-    mutate(Date = yearmonth(Date)) |>
-    index_by(Date) |>
-    summarise(Production = mean(Production)) |>
-    select(Date, Production) |>
-    model(stl = STL(Production)) |>
-    components()
 
-decomposed
-
-# Create the combined plot
-decomposed |>
-  autoplot() +
-  labs(
-    title = "Decomposition of Electric Production Time Series",
-    x = "Year"
-  ) +
-  theme(
-    axis.text.x = element_text(angle = 0),
-    legend.position = "none"
-  )
-
-# Save the plot
-ggsave(paste0(folder_path, "/electric_prod_stl_decomposition.png"), 
-       width = 10, height = 8, dpi = 300)
 
 
 #Check for Stationarity
@@ -155,6 +130,8 @@ electric_prod_stationary <- electric_prod |>
   mutate(
     box_cox = box_cox(Production, lambda)
   )
+  
+electric_prod_stationary
 
 # Plot the transformed series
 electric_prod_stationary |>
@@ -172,53 +149,94 @@ electric_prod_stationary |>
 ggsave(paste0(folder_path, "/electric_prod_transformations.png"), 
        width = 12, height = 8, dpi = 300)
 
+boxcox_ma_ts <- electric_prod_stationary |>
+   select(Date, box_cox) |>
+   mutate(
+     MA = slider::slide_dbl(box_cox, mean, .before = 11, .after = 0, .complete = TRUE),
+   ) |>
+   select(Date, MA)
 
 electric_prod_boxcox_ma <- electric_prod_stationary |>
-  select(Date, box_cox) |>
+  left_join(boxcox_ma_ts, by = "Date") |>
   mutate(
-    MA = slider::slide_dbl(box_cox, mean, .before = 11, .after = 0, .complete = TRUE),
     Production = box_cox - MA
   ) |>
+  drop_na() |>
   select(Date, Production)
 
-#plot the detrended data
-ggplot(electric_prod_boxcox_ma) +
-  geom_line(aes(x = Date, y = Production), color = "blue") +
-  labs(title = "Detrended Electric Production",
-       x = "Year",
-       y = "Production Index")
+electric_prod_boxcox_ma
 
-electric_prod_box_ma_ed_mean <- electric_prod_boxcox_ma |>
-  mutate(
-    EMA = EMA(Production, n = 12, ratio = 0)
-  )
+ #plot the detrended data
+ ggplot(electric_prod_boxcox_ma) +
+   geom_line(aes(x = Date, y = Production), color = "blue") +
+   labs(title = "Detrended Electric Production",
+        x = "Year",
+        y = "Production Index")
+ 
+ ggsave(paste0(folder_path, "/electric_prod_detrended.png"), 
+       width = 10, height = 6, dpi = 300)
 
-ed_mean = mean(electric_prod_box_ma_ed_mean$EMA, na.rm = TRUE)
+# electric_prod_box_ma_ed_mean <- electric_prod_boxcox_ma |>
+#   mutate(
+#     EMA = EMA(Production, n = 12, ratio = 0)
+#   )
 
-electric_prod_box_ma_ed <- electric_prod_box_ma_ed_mean |>
-  mutate(
-    Production = Production - ed_mean
-  ) |>
-  select(Date, Production)
+# ed_mean = mean(electric_prod_box_ma_ed_mean$EMA, na.rm = TRUE)
+
+# electric_prod_box_ma_ed <- electric_prod_box_ma_ed_mean |>
+#   mutate(
+#     Production = Production - ed_mean
+#   ) |>
+#   select(Date, Production)
   
 
-electric_prod_box_ma_ed |>
-  ggplot(aes(x = Date, y = Production)) +
-  geom_line(color = "blue") +
-  labs(title = "Detrended Electric Production with Exponential Decay",
-       x = "Year",
-       y = "Production Index")
+# electric_prod_box_ma_ed |>
+#   ggplot(aes(x = Date, y = Production)) +
+#   geom_line(color = "blue") +
+#   labs(title = "Detrended Electric Production with Exponential Decay",
+#        x = "Year",
+#        y = "Production Index")
 
 #perform ADF-test again
-electric_prod_box_ma_ed |>
+electric_prod_boxcox_ma |>
   mutate(
-    Date = yearmonth(Date),
-    Production = replace_na(Production, 0)
+    Date = yearmonth(Date)
   ) |>
   index_by(Date) |>
   pull(Production) |>
   adf.test(k=12)
+
 #Model Selection
+
+electric_prod <- electric_prod_boxcox_ma
+
+decomposed <- electric_prod |>
+  mutate(
+    Date = yearmonth(Date)
+  ) |>
+  index_by(Date) |>
+  summarise(Production = mean(Production)) |>
+  select(Date, Production) |>
+  model(stl = STL(Production)) |>
+  components()
+
+decomposed
+
+# Create the combined plot
+decomposed |>
+  autoplot() +
+  labs(
+    title = "Decomposition of Electric Production Time Series",
+    x = "Year"
+  ) +
+  theme(
+    axis.text.x = element_text(angle = 0),
+    legend.position = "none"
+  )
+
+# Save the plot
+ggsave(paste0(folder_path, "/electric_prod_stl_decomposition.png"), 
+       width = 10, height = 8, dpi = 300)
 
 arima_fit <- electric_prod |>
   mutate(Date = yearmonth(Date)) |>
