@@ -7,7 +7,7 @@ library(lubridate)   # For date handling
 library(prophet)     # For Prophet model
 library(fable.prophet) # For Prophet integration with fable
 library(tseries) # For adf test
-library(TTR) # For EMA
+library(TTR) # For EMA, no longer used
 
 
 folder_path <- "../Desktop/folders/Cybersecurity-UBB/Forecasting/Report"
@@ -91,16 +91,6 @@ summary(electric_prod$Production)
 #Augmented Dickey-Fuller Test
 #Null Hypothesis: Time Series is non-stationary.
 
-electric_prod |>
-  mutate(Date = yearmonth(Date)) |>
-  index_by(Date) |>
-  summarise(Production = mean(Production)) |>
-  select(Date, Production) |>
-  ACF(lag_max = 12) |>
-  autoplot() + labs(title = "Autocorrelation of Electric production", x = "Lag", y = "Autocorrelation")
-
-ggsave(paste0(folder_path, "/electric_prod_acf.png"), 
-       width = 10, height = 6, dpi = 300)
 
 # The autocorrelation plot shows that the data is not stationary, as the autocorrelations are not
 # constant over time.
@@ -247,6 +237,17 @@ arima_fit <- electric_prod |>
     auto_arima = ARIMA(Production)
   )
 
+electric_prod |>
+  mutate(Date = yearmonth(Date)) |>
+  index_by(Date) |>
+  summarise(Production = mean(Production)) |>
+  select(Date, Production) |>
+  ACF(lag_max = 12) |>
+  autoplot() + labs(title = "Autocorrelation of Electric production", x = "Lag", y = "Autocorrelation")
+
+ggsave(paste0(folder_path, "/electric_prod_acf.png"), 
+       width = 10, height = 6, dpi = 300)
+
 # Check model summary
 report(arima_fit)
 
@@ -366,55 +367,66 @@ for(model_name in c("Mean", "Naive", "SNaive", "Drift")) {
 # Choose the best simple forecasting method for your data
 
 
-extended_models <- electric_prod |>
-  model(
-    # Simple methods (already used)
-    Mean = MEAN(Production),
-    Naive = NAIVE(Production),
-    SNaive = SNAIVE(Production ~ lag("year")),
-    Drift = RW(Production ~ drift()),
+# extended_models <- electric_prod |>
+#   model(
+#     # Simple methods (already used)
+#     Mean = MEAN(Production),
+#     Naive = NAIVE(Production),
+#     SNaive = SNAIVE(Production ~ lag("year")),
+#     Drift = RW(Production ~ drift()),
     
-    # Exponential Smoothing methods
-    ETS_ANN = ETS(Production ~ error("A") + trend("N") + season("N")),
-    ETS_AAN = ETS(Production ~ error("A") + trend("A") + season("N")),
-    ETS_Auto = ETS(Production),  # Automatic selection
+#     # Exponential Smoothing methods
+#     ETS_ANN = ETS(Production ~ error("A") + trend("N") + season("N")),
+#     ETS_AAN = ETS(Production ~ error("A") + trend("A") + season("N")),
+#     ETS_Auto = ETS(Production),  # Automatic selection
     
-    # ARIMA variants
-    ARIMA_Auto = ARIMA(Production),  # Automatic ARIMA
-    ARIMA_201 = ARIMA(Production ~ pdq(2,0,1)),  # Manual ARIMA specification
+#     # ARIMA variants
+#     ARIMA_Auto = ARIMA(Production),  # Automatic ARIMA
+#     ARIMA_201 = ARIMA(Production ~ pdq(2,0,1)),  # Manual ARIMA specification
     
-    # Neural Network methods
-    NNETAR = NNETAR(Production),
+#     # Neural Network methods
+#     NNETAR = NNETAR(Production),
     
-    # Regression based
-    TSLM = TSLM(Production ~ trend() + season()),
+#     # Regression based
+#     TSLM = TSLM(Production ~ trend() + season()),
     
-    # Prophet model (Facebook's forecasting tool)
-    Prophet = prophet(Production ~ season("year"))
-  )
+#     # Prophet model (Facebook's forecasting tool)
+#     Prophet = prophet(Production ~ season("year"))
+#   )
 
-# Generate forecasts
-extended_forecasts <- extended_models |>
-  forecast(h = "1 year")
+# # Generate forecasts
+# extended_forecasts <- extended_models |>
+#   forecast(h = "1 year")
 
-# Compare accuracy of all models
-accuracy_comparison <- accuracy(extended_forecasts, electric_prod)
-print(accuracy_comparison)
+# # Compare accuracy of all models
+# accuracy_comparison <- accuracy(extended_forecasts, electric_prod)
+# print(accuracy_comparison)
 
-# Plot forecasts from all models
-extended_forecasts |>
-  autoplot(electric_prod, level = NULL) +
-  labs(
-    title = "Comparison of Different Forecasting Methods",
-    x = "Year",
-    y = "Production Index"
-  ) +
-  theme_minimal() +
-  theme(legend.position = "bottom")
+# # Plot forecasts from all models
+# model_names <- unique(extended_forecasts$.model)
 
-# Save the comparison plot
-ggsave(paste0(folder_path, "/extended_forecasts_comparison.png"), 
-       width = 12, height = 8, dpi = 300)
+# # Create and save individual plots
+# for (model in model_names) {
+#   p <- extended_forecasts |>
+#     filter(.model == model) |>
+#     autoplot(electric_prod, level = NULL) +
+#     labs(
+#       title = paste("Forecast using", model),
+#       x = "Year",
+#       y = "Production Index"
+#     ) +
+#     theme_minimal()
+  
+#   # Save each plot
+#   ggsave(
+#     filename = paste0(folder_path, "/forecast_", model, ".png"),
+#     plot = p,
+#     width = 10,
+#     height = 6,
+#     dpi = 300
+#   )
+# }
+
 
 
 # Exponential Smoothing (ETS):
@@ -440,3 +452,77 @@ ggsave(paste0(folder_path, "/extended_forecasts_comparison.png"),
 # Good for daily data with strong seasonal patterns
 # The code also includes:
 # Visualization of all forecasts
+
+# Split data into training (80%) and testing (20%) sets
+total_obs <- nrow(electric_prod)
+train_size <- floor(0.8 * total_obs)
+
+# Create training and test sets
+train <- electric_prod |> 
+  filter(row_number() <= train_size)
+test <- electric_prod |> 
+  filter(row_number() > train_size)
+
+# Fit models on training data
+extended_models_split <- train |>
+  model(
+    # Simple methods
+    Mean = MEAN(Production),
+    Naive = NAIVE(Production),
+    SNaive = SNAIVE(Production ~ lag("year")),
+    Drift = RW(Production ~ drift()),
+    
+    # Exponential Smoothing methods
+    ETS_ANN = ETS(Production ~ error("A") + trend("N") + season("N")),
+    ETS_AAN = ETS(Production ~ error("A") + trend("A") + season("N")),
+    ETS_Auto = ETS(Production),
+    
+    # ARIMA variants
+    ARIMA_Auto = ARIMA(Production),
+    ARIMA_201 = ARIMA(Production ~ pdq(2,0,1)),
+    
+    # Neural Network methods
+    NNETAR = NNETAR(Production),
+    
+    # Regression based
+    TSLM = TSLM(Production ~ trend() + season()),
+    
+    # Prophet model
+    Prophet = prophet(Production ~ season("year"))
+  )
+
+# Generate forecasts for test period
+test_forecasts <- extended_models_split |>
+  forecast(new_data = test)
+
+# Calculate accuracy metrics for training and test sets
+train_accuracy <- accuracy(extended_models_split)
+test_accuracy <- accuracy(test_forecasts, test)
+
+# Print results
+cat("\nTraining Set Accuracy:\n")
+print(train_accuracy |> 
+      select(.model, RMSE, MAE, MAPE) |>
+      arrange(RMSE))
+
+cat("\nTest Set Accuracy:\n")
+print(test_accuracy |> 
+      select(.model, RMSE, MAE, MAPE) |>
+      arrange(RMSE))
+
+# Plot actual vs predicted for test period
+test_forecasts |>
+  autoplot(bind_rows(train), level = NULL) +
+  geom_vline(xintercept = as.numeric(max(train$Date)), 
+             linetype = "dashed", color = "red") +
+  facet_wrap(~.model, scales = "free_y") +
+  labs(
+    title = "Forecast Accuracy on Test Set",
+    subtitle = "Red line indicates train/test split",
+    x = "Year",
+    y = "Production Index"
+  )
+
+# Save the plot
+ggsave(paste0(folder_path, "/forecast_accuracy_comparison.png"), 
+       width = 15, height = 12, dpi = 300)
