@@ -364,7 +364,6 @@ for(model_name in c("Mean", "Naive", "SNaive", "Drift")) {
 # Compare the accuracy of different forecasting methods
 # Check if residuals look random (they should)
 # Determine if there's remaining autocorrelation in residuals (there shouldn't be)
-# Choose the best simple forecasting method for your data
 
 
 # extended_models <- electric_prod |>

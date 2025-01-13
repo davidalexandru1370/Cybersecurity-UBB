@@ -1,0 +1,3 @@
+XPath injection in file xmli_2.php
+SQL Injection in file sqli_1.php
+Code Injection in phpi.php
