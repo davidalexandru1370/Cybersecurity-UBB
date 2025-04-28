@@ -1,0 +1,30 @@
+11. Care dintre următoarele afirmații sunt adevărate în ceea ce privește o semnătură digital?
+a. Semnătura digitală este de fapt un hash
+b. Orice document semnat digital poate fi datat în timp
+c. Pentru a aplica o semnătură digitală, mai este nevoie de cel puțin încă o parte implicată care să semneze 
+și ea documentul (autoritate de certificare, notar electronic, partenerul cu care se semnează un contract 
+digital, etc.)
+d. Semnătura digitală este criptată cu ajutorul unei chei private
+
+
+21.Care este pericolul compromiterii unui certificat digital emis unui site Web în scopul autentificării acestuia de către clienți (compromitere în sensul aducerii acestui certificat la cunoștință publică)?
+c. Se pot semna documente în numele site-ului web respectiv
+a. Se poate extrage cheia publică din acel certificat, dar acest fapt nu reprezintă un pericol
+b. Se poate extrage cheia privată din acel certificat
+d. Nu există niciun pericol
+
+7. Care este pericolul interceptării de către un terț (Man in the Middle) a unei chei publice din cadrul unui certificat digital semnat de către o autoritate de certificare și transmis pe un canal nesigur?
+a. Atacatorul poate înlocui cheia publică din certificat cu propria cheie publică, corespunzătoare unei chei private pe care acesta o deține
+b. Nu există niciun pericol, destinatarul la care ajunge certificatul îl poate valida pe baza semnăturii depuse de autoritatea de certificare
+c. Atacatorul poate înlocui cheia privată din certificat cu propria cheie privată, corespunzătoare unei chei publice pe care acesta o deține
+
+ Atacurile remote pot fi prevenite prin:
+a. Măsuri de securitate împotriva atacurilor locale
+b. Instalarea de update-uri pentru sistemul de operare
+c. Folosirea unui firewall
+d. Închiderea porturilor și oprirea serviciilor inutile
+
+41. Succesul atacurilor remote asupra proceselor server vulnerabile se datorează:
+a. Modificării pe stivă a adresei de revenire din cadrul unei funcții
+b. Suprascrierii stivei cu codul remote care se dorește a fi executat de către atacator
+c. Invalidării insuficiente asupra dimensiunii datelor de intrare
