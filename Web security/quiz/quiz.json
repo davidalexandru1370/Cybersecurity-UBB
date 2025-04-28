@@ -1,0 +1,636 @@
+{
+  "1": {
+    "question": "1. Care dintre urmatoarele afirmatii despre procesul de schimb de chei sunt adevarate in contextulfolosirii algoritmilor de criptare simetrici, respectiv asimetrici:",
+    "a": "a. In ambele situatii, schimbul de chei se poate realiza pe acelasi canal / prin acelasi mecanism prin care are loc si comunicarea",
+    "b": "b. Schimbul de chei pe un alt canal / mecanism diferit de comunicare alternativ trebuie sa serealizeze doar in cazul algoritmilor de criptare asimetrici",
+    "c": "c. Schimbul de chei pe un alt canal / mecanism diferit de comunicare alternativ trebuie sa serealizeze doar in cazul algoritmilor de criptare simetrici",
+    "d": "d. In ambele situatii, schimbul de chei trebuie sa se desfasoare pe un alt canal / printr-unmecanism de comunicare alternativ",
+    "correct": ["a"]
+  },
+  "2": {
+    "question": "2. Care dintre urmatoarele reprezinta proprietati care trebuie sa fie respectate de catre o semnatura electronica:",
+    "a": "a. nereutilizabila",
+    "b": "b. nerepudiabila",
+    "c": "c. nefalsificabila",
+    "d": "d. autentica",
+    "e": "e. nealterabila",
+    "correct": ["b", "c", "d", "e"]
+  },
+  "3": {
+    "question": "3. Care este cel mai uzual mod de transmitere a unei chei publice catre terti:",
+    "a": "a. Pe un canal alternativ care nu poate fi controlat de atacator",
+    "b": "b. Pe un canal de comunicare criptat pentru a asigura confidentialitatea cheii",
+    "c": "c. Fiind vorba de o cheie publica, nu este important ca, canalul pe care este transmisa sa fie sigur",
+    "d": "d. In cadrul unui certificat digital",
+    "correct": ["d"]
+  },
+  "4": {
+    "question": "4. Care dintre urmatoarele mecanisme limiteaza succesul exploit-urilor de tip shell code?",
+    "a": "a. Arhivarea (compactarestivei",
+    "b": "b. Randomizarea stivei",
+    "c": "c. Data Execution Prevention",
+    "d": "d. Inlaturarea bitului de executie de pe programul atacat",
+    "correct": ["b", "c"]
+  },
+  "5": {
+    "question": "5. Care dintre urmatoarele vulnerabilitati ar putea fi exploatata pentru a fura sesiunea unui utilizator autentificat?",
+    "a": "a. Cross-Site Request Forgery (CSRF)",
+    "b": "b. Cross-Site scripting (XSS)",
+    "c": "c. SQL Injection",
+    "correct": ["b"]
+  },
+  "6": {
+    "question": "6. Care dintre următoarele afirmații sunt adevărate în ceea ce privește certificatele digitale Web client-side?",
+    "a": "a. Sunt transmise clientului exclusiv pe canale de încredere (sigure)",
+    "b": "b. Sunt semnate cu aceeași cheie privată cu care este semnat și certificatul serverului Web",
+    "c": "c. Folosite împreună cu protocolul SSL și cu autentificarea pe bază de user și parolă sporesc securitatea autentificării și identificării clientului",
+    "correct": ["c"]
+  },
+  "7": {
+    "question": "7. Care este pericolul interceptării de către un terț (Man in the Middle) a unei chei publice din cadrul unui certificat digital semnat de către o autoritate de certificare și transmis pe un canal nesigur?",
+    "a": "a. Atacatorul poate înlocui cheia publică din certificat cu propria cheie publică, corespunzătoare unei chei private pe care acesta o deține",
+    "b": "b. Nu există niciun pericol, destinatarul la care ajunge certificatul îl poate valida pe baza semnăturii depuse de autoritatea de certificare",
+    "c": "c. Atacatorul poate înlocui cheia privată din certificat cu propria cheie privată, corespunzătoare unei chei publice pe care acesta o deține",
+    "correct": ["b"]
+  },
+  "8": {
+    "question": "8. Cum se poate „fura” un cookie de sesiune al unui alt utilizator?",
+    "a": "a. Prin lipsa invalidării sesiunii (logout) și navigarea în continuare pe un site malițios",
+    "b": "b. Prin interceptarea datelor la nivelul rețelei de transport în lipsa folosirii unei conexiuni sigure",
+    "c": "c. Prin intermediul unui cod JavaScript injectat de către atacator",
+    "correct": ["b", "c"]
+  },
+  "9": {
+    "question": "9. Care dintre următoarele reprezintă măsuri pentru evitarea vulnerabilităților de tip XSS?",
+    "a": "a. Înlocuirea anumitor caractere din datele primite de la client cu entitățile HTML corespunzătoare",
+    "b": "b. Folosirea la nivelul browserului a unor biblioteci de funcții JavaScript consacrate și testate anterior",
+    "c": "c. Dezactivarea din cadrul aplicației web a posibilității rulării de cod JavaScript de către browser",
+    "d": "d. Verificări riguroase la nivelul browserului legate de validitatea datelor introduce",
+    "correct": ["a"]
+  },
+  "10": {
+    "question": "10. Cheia privată este folosită pentru:",
+    "a": "a. Semnarea documentelor",
+    "b": "b. Verificarea semnăturilor digitale",
+    "c": "c. Decriptarea mesajelor primite",
+    "d": "d. Criptarea mesajelor trimise",
+    "correct": ["a", "c"]
+  },
+  "11": {
+    "question": "11. Care dintre următoarele afirmații sunt adevărate în ceea ce privește o semnătură digital?",
+    "a": "a. Semnătura digitală este de fapt un hash",
+    "b": "b. Orice document semnat digital poate fi datat în timp",
+    "c": "c. Pentru a aplica o semnătură digitală, mai este nevoie de cel puțin încă o parte implicată care să semneze și ea documentul (autoritate de certificare, notar electronic, partenerul cu care se semnează un contract digital, etc.)",
+    "d": "d. Semnătura digitală este criptată cu ajutorul unei chei private",
+    "correct": ["b", "d"]
+  },
+  "12": {
+    "question": "12. Ce memorează autoritățile de marcă temporală?",
+    "a": "a. Cererile și răspunsurile venite spre și dinspre acestea",
+    "b": "b. Nu memorează nimic, doar semnează, validitatea semnăturii putând fi ușor dovedită cu ajutorul cheii publice a autorității de marcă temporală",
+    "c": "c. Documentele semnate",
+    "correct": ["a"]
+  },
+  "13": {
+    "question": "13. Apelurile sistem Linux pot fi apelate ca funcții de la întreruperea:",
+    "a": "a. 21h",
+    "b": "b. Apelurile sistem Linux sunt implementate în C nu ca funcții de la o anumită întrerupere",
+    "c": "c. 80h",
+    "d": "d. 80",
+    "e": "e. 21",
+    "correct": ["c"]
+  },
+  "14": {
+    "question": "14. Care dintre următoarele protocoale folosesc criptografia cu cheie publică?",
+    "a": "a. https",
+    "b": "b. smtp",
+    "c": "c. nslookup (name secure lookup)",
+    "d": "d. ssh",
+    "correct": ["a", "d"]
+  },
+  "15": {
+    "question": "15. Ce se trimite unei autorități de marcă temporală pentru a dovedi că un anumit document există la un anumit moment de timp?",
+    "a": "a. un hash al documentului și o semnătură",
+    "b": "b. documentul, semnătura și momentul de timp",
+    "c": "c. documentul semnat",
+    "correct": ["a"]
+  },
+  "16": {
+    "question": "16. Caracterul NULL \\0 nu apare de obicei în string-ul ce reprezintă shell code-ul deoarece:",
+    "a": "a. Majoritatea programelor exploatate sunt scrise în limbajul C, acest caracter ar marca terminarea prematură a datelor de intrare",
+    "b": "b. 00h nu este o adresă de revenire validă în cadrul stivei",
+    "c": "c. Octetul cu valoarea 0 nu reprezintă codul unei instrucțiuni valide în limbaj de asamblare",
+    "correct": ["a"]
+  },
+  "17": {
+    "question": "17. Care dintre următoarele reprezintă măsuri pentru evitarea injecțiilor SQL:",
+    "a": "a. Folosirea la nivelul backend-ului de mecanisme de tipul ”prepared statement”",
+    "b": "b. Verificări riguroase la nivelul backend-ului legate de validitatea datelor introduse precum și folosirea de biblioteci specializate pentru persitarea datelor (ORM-uri)",
+    "c": "c. Verificări riguroase la nivelul browserului legate de validitatea datelor introduse",
+    "d": "d. Dezactivarea în cadrul aplicației Web a posibilității rulării de cod SQL de către browser",
+    "correct": ["a", "b"]
+  },
+  "18": {
+    "question": "18. Criptarea datelor între parteneri se poate face în Internet la care dintre următoarele niveluri:",
+    "a": "a. Fizic și legătură de date",
+    "b": "b. Rețea",
+    "c": "c. Aplicație",
+    "correct": ["b", "c"]
+  },
+  "19": {
+    "question": "19. Certificatele digitale autosemnate se folosesc:",
+    "a": "a. Un certificat nu poate fi autosemnat",
+    "b": "b. De către autoritățile de certificare",
+    "c": "c. Doar dacă aparțin/sunt emise de către un utilizator pentru el însuși și nu sunt semnate și de către autoritățile de certificare",
+    "correct": ["b"]
+  },
+  "20": {
+    "question": "20. Diseminarea în siguranță către terți a cheii publice a unei entități se poate face:",
+    "a": "a. Prin intermediul unui certificat digital semnat",
+    "b": "b. Fiind vorba de cheia publică, nu trebuie luate măsuri suplimentare de siguranță, toată lumea putând cunoaște această cheie",
+    "c": "c. Odată cu diseminarea spre terți a cheii private",
+    "d": "d. Pe un canal alternativ securizat, diferit de cel pe care urmează să se facă comunicarea",
+    "correct": ["a"]
+  },
+  "21": {
+    "question": "21.Care este pericolul compromiterii unui certificat digital emis unui site Web în scopul autentificării acestuia de către clienți (compromitere în sensul aducerii acestui certificat la cunoștință publică)?",
+    "c": "c. Se pot semna documente în numele site-ului web respectiv",
+    "a": "a. Se poate extrage cheia publică din acel certificat, dar acest fapt nu reprezintă un pericol",
+    "b": "b. Se poate extrage cheia privată din acel certificat",
+    "d": "d. Nu există niciun pericol",
+    "correct": ["a", "d"]
+  },
+  "22": {
+    "question": "22. Autoritățile de marcă temporală care dovedesc existența unui document la un anumit moment de tip:",
+    "a": "a. Semnează și ele documentul",
+    "b": "b. Stochează documentul",
+    "c": "c. Semnează un hash al documentului",
+    "correct": ["c"]
+  },
+  "23": {
+    "question": "23. Funcția aplicată pe text și pe cheia privată poate asigura:",
+    "a": "a. Confidențialitatea mesajului",
+    "b": "b. nonrepudierea mesajului",
+    "c": "c. autenticitatea mesajului",
+    "d": "d. integritatea mesajului",
+    "correct": ["b", "c", "d"]
+  },
+  "24": {
+    "question": "24. Care dintre următoarele reprezintă scheme de validare a unui 3ertificate digital:",
+    "a": "a. DCVP – Digital Certificate Validation Process",
+    "b": "b. OCSP – Online Certificate Status Protocol",
+    "c": "c. CRLs – Certificate Revocation Lists",
+    "correct": ["b", "c"]
+  },
+  "25": {
+    "question": "25. Cheia publică este folosită pentru:",
+    "a": "a. Semnarea documentelor",
+    "b": "b. Criptarea mesajelor",
+    "c": "c. Decriptarea mesajelor",
+    "d": "d. Verificarea semnăturilor digitale",
+    "correct": ["b", "d"]
+  },
+  "26": {
+    "question": "26. Un certificat digital ajută la:",
+    "a": "a. Verificarea integrității și autenticității unui mesaj semnat de către persoana căreia îi este emis certificatul digital",
+    "b": "b. Decriptarea unui mesaj criptat de persoana căreia îi este emis certificatul",
+    "c": "c. Criptarea unui mesaj destinat persoanei căreia îi este emis certificatul",
+    "correct": ["a"]
+  },
+  "27": {
+    "question": "27. Pentru a asigura securitatea unei aplicații web, unde este locul in care trebuie plasate validările asupra",
+    "d": "datelor introduse de utilizatori?",
+    "a": "a. validările privind autorizarea utilizatorilor de a efectua o acțiune trebuie să fie făcute client-side, iar cele",
+    "c": "c. client-side",
+    "b": "b. server-side",
+    "correct": ["b"]
+  },
+  "28": {
+    "question": "28. Încrederea unui utilizator într-o autoritate de certificare:",
+    "a": "a. presupune emiterea de către autoritatea de certificare a unui certificat digital utilizatorului",
+    "b": "b. presupune cunoașterea de către utilizator a cheii publice a autorității de certificare",
+    "c": "c. presupune cunoașterea de către utilizator a cheii private a autorității de certificare",
+    "correct": ["b"]
+  },
+  "29": {
+    "question": "29. Un certificat digital autosemnat:",
+    "a": "a. Conține cheia privată corespunzătoare cheii publice cu care se face semnarea certificatului",
+    "b": "b. Conține cheia publică corespunzătoare cheii private cu care se face semnarea certificatului",
+    "c": "c. Fiind autosemnat conține atât cheia publică cât și cheia privată corespunzătoare",
+    "correct": ["b"]
+  },
+  "30": {
+    "question": "30. Semnarea unui document asigură:",
+    "a": "a. Datarea în timp a documentului",
+    "b": "b. Confidențialitatea datelor conținute în document",
+    "c": "c. Autenticitatea documentului",
+    "d": "d. Nemodificarea ulterioară a documentului",
+    "correct": ["c", "d"]
+  },
+  "31": {
+    "question": "31. Cum se poate preveni o vulnerabilitate de tip SQL Injection?",
+    "a": "a. prin limitarea lungimii pentru fiecare dintre parametrii folosiți în interogări",
+    "b": "b. prin utilizarea de Prepared Statements",
+    "c": "c. prin adăugarea de apostroafe în jurul parametrilor folosiți în interogări",
+    "correct": ["b"]
+  },
+  "32": {
+    "question": "32. Pentru crearea unei infrastructuri bazate pe chei publice și private este necesar:",
+    "a": "a. Generarea perechii (cheie publică, cheie privată) implicate în procesul de semnare și verificare a certificatelor digitale emise",
+    "b": "b. Obținerea unui certificat digital semnat de către o autoritate de certificare recunoscută",
+    "c": "c. Obținerea unei perechi (cheie publică, cheie privată) de la o autoritate de certificare recunoscută",
+    "correct": ["a", "b"]
+  },
+  "33": {
+    "question": "33. Care dintre următoarele afirmații despre un „exploit” sunt adevărate?",
+    "a": "a. Se bazează pe validări insuficiente ale datelor de intrare",
+    "b": "b. Este folosit doar pentru atacuri remote",
+    "c": "c. Trebuie scris în același limbaj ca și cel în care este scris programul atacat",
+    "correct": ["a"]
+  },
+  "34": {
+    "question": "34. Vulnerabilitățile de tip Social Engineering se datorează:",
+    "a": "a. Constrângerilor insuficiente impuse de regulile de securitate ale unui firewall",
+    "b": "b. Ratei de penetrare mai ridicată a noilor tehnologii comparativ cu capacitatea de absorbție a acestora",
+    "c": "c. Vulnerabilităților descoperite periodic la nivelul World Wide Web-ului",
+    "correct": ["b"]
+  },
+  "35": {
+    "question": "35. Pentru limitarea atacurilor Web se recomandă:",
+    "a": "a. Auditul codului server side și folosirea de librării specializate consacrate pentru efectuarea validărilor",
+    "b": "b. Folosirea unor mecanisme de securitate complementare precum diferite module de securitate la nivelul serverului web (spre exemplu mod_security pe Apache)",
+    "c": "c. În cazul folosirii de aplicații web larg răspândite în Internet, actualizarea periodică a acestora și urmărirea listelor de discuții și a anunțurilor dezvoltatorilor",
+    "d": "d. Folosirea protocolului https în locul protocolului http pentru a accesa aplicația web",
+    "correct": ["a", "b", "c", "d"]
+  },
+  "36": {
+    "question": "36. Care dintre următoarele reprezintă măsuri pentru prevenirea atacurilor locale?",
+    "a": "a. Schimbarea sistemului de fișiere în care rulează un proces server (chroot)",
+    "b": "b. Limitarea numărului de programe care au bitul SUID/SGID setat",
+    "c": "c. Rularea serviciului nu ca super-user ci cu privilegiile unui utilizator obișnuit",
+    "correct": ["a", "b", "c"]
+  },
+  "37": {
+    "question": "37. Un atac local presupune:",
+    "a": "a. Exploatarea unei vulnerabilități din cadrul unui proces server",
+    "b": "b. Accesarea unui sistem de la consola acestuia",
+    "c": "c. Escaladarea de privilegii",
+    "correct": ["b", "c"]
+  },
+  "38": {
+    "question": "38. Care dintre următoarele tipuri de atacuri este asociat cu escaladarea de privilegii?",
+    "a": "a. Atacurile de tip DDOS",
+    "b": "b. Atacurile remote",
+    "c": "c. Atacurile locale",
+    "correct": ["c"]
+  },
+  "39": {
+    "question": "39. Atacurile remote pot fi prevenite prin:",
+    "a": "a. Măsuri de securitate împotriva atacurilor locale",
+    "b": "b. Instalarea de update-uri pentru sistemul de operare",
+    "c": "c. Folosirea unui firewall",
+    "d": "d. Închiderea porturilor și oprirea serviciilor inutile",
+    "correct": ["b", "c", "d"]
+  },
+  "40": {
+    "question": "40. Prin shell code se înțelege:",
+    "a": "a. Codul în limbaj de asamblare al interpretorului de comenzi Unix",
+    "b": "b. Un exploit descris într-un fișier de comenzi și executat de către shell-ul UNIX",
+    "c": "c. Un cod scris de obicei în limbaj de asamblare și care este injectat remote de către atacator pentru a-i",
+    "o": "oferi un shell",
+    "correct": ["c"]
+  },
+  "41": {
+    "question": "41. Succesul atacurilor remote asupra proceselor server vulnerabile se datorează:",
+    "a": "a. Modificării pe stivă a adresei de revenire din cadrul unei funcții",
+    "b": "b. Suprascrierii stivei cu codul remote care se dorește a fi executat de către atacator",
+    "c": "c. Invalidării insuficiente asupra dimensiunii datelor de intrare",
+    "correct": ["b", "c"]
+  },
+  "42": {
+    "question": "42. Din ce motive un atacator instalează pe un sistem compromis un rootkit?",
+    "a": "a. Pentru a avea o portiță de acces pentru accesarea ulterioară a sistemului",
+    "b": "b. Pentru a accesa sistemul ca root (superuser)",
+    "c": "c. Pentru a-și ascunde urmele",
+    "correct": ["a", "b", "c"]
+  },
+  "43": {
+    "question": "43. Detectarea unui virus poate fi îngreunată de:",
+    "a": "a. Caracterul metamorfic al acestuia",
+    "b": "b. Suprascrierii anumitor apeluri de sistem de către virus",
+    "c": "c. Lipsa rutinei de multiplicare a virusului",
+    "correct": ["a"]
+  },
+  "44": {
+    "question": "44. Care dintre următoarele afirmații sunt adevărate despre viruși și viermi?",
+    "a": "a. Un vierme este un virus care se răspândește folosind rețeaua Internet",
+    "b": "b. Virușii se răspândesc exclusiv offline, în timp ce viermii se răspândesc prin intermediul rețelei Internet",
+    "c": "c. Virușii au nevoie pentru a se răspândi de interacțiunea cu utilizatorul uman, pe când viermii se răspândesc automat",
+    "correct": ["c"]
+  },
+  "45": {
+    "question": "45. Vulnerabilitățile web pot duce la:",
+    "a": "a. Un atac remote și continuarea acestuia cu unul local",
+    "b": "b. Modificarea regulilor de firewall referitoare la portul 80 (HTTP) pentru a oferi atacatorului noi modalități de acces",
+    "c": "c. Compromiterea conținutului site-ului web ce conține o aplicație web vulnerabilă",
+    "correct": ["a", "c"]
+  },
+  "46": {
+    "question": "46. Care dintre următorii factori conduc la răspândirea mai agresivă a webworm-urilor?",
+    "a": "a. Omogenitatea aplicațiilor web folosite în Internet",
+    "b": "b. Exportarea de către aplicațiile web a unei “semnături” ce indică numele și versiunea aplicației web",
+    "c": "c. Numărul relativ mic de servere web folosite în Internet (Apache și IIS)",
+    "d": "d. Folosirea motoarelor de căutare pentru a localiza alte sisteme vulnerabile",
+    "correct": ["a", "b", "c", "d"]
+  },
+  "47": {
+    "question": "47. Care dintre următoarele reprezintă proprietăți ale shell codului injectat remote de către un atacator?",
+    "a": "a. Este scris pe același număr de biți ca și nucleul sistemului de operare ce se dorește a fi atacat",
+    "b": "b. Adresele în cadrul shell code-ului trebuie să fie absolute, nu relative",
+    "c": "c. De obicei nu trebuie să conțină octeți cu valoarea 0",
+    "correct": ["a", "c"]
+  },
+  "48": {
+    "question": "48. Epidemia datorată unui virus informatic este cu atât mai mare cu cât:",
+    "a": "a. Diversitatea sistemelor (din punct de vedere hardware și software) atacate este mai mică",
+    "b": "b. Factorul uman în particular și societatea în general nu absorb suficient de rapid noile tehnologii pe care virusul le exploatează",
+    "c": "c. Numărul de sisteme antivirus instalate pe sistemele atacate este mai mic",
+    "correct": ["a", "c"]
+  },
+  "49": {
+    "question": "49. Care dintre următorii factori fac ca un sistem de calcul să fie mai susceptibil la atacuri:",
+    "a": "a. Programele SUID-ate",
+    "b": "b. Porturile deschise",
+    "c": "c. Utilizatorii sub care rulează anumite servicii",
+    "correct": ["a", "b", "c"]
+  },
+  "50": {
+    "question": "50. Pentru a-și ascunde urmele, un atacator care a compromis securitatea unui sistem poate folosi:",
+    "a": "a. Pachete UDP având adresa IP sursă falsificată (spoofing)",
+    "b": "b. Un rootkit",
+    "c": "c. Un troian",
+    "correct": ["b"]
+  },
+  "51": {
+    "question": "51. Atacurile locale se bazează pe:",
+    "a": "a. Vulnerabilități în programele care au bitul SUID setat",
+    "b": "b. Vulnerabilități în diverse procese server",
+    "c": "c. Vulnerabilități la nivelul apelurilor de sistem oferite de către sistemul de operare",
+    "d": "d. Lipsa securității fizice a sistemului și a liberului access la consola acestuia",
+    "correct": ["a", "c", "d"]
+  },
+  "52": {
+    "question": "52. Exploiturile pot fi folosite pentru a ataca:",
+    "a": "a. Aplicații web",
+    "b": "b. Aplicații client",
+    "c": "c. Procese server",
+    "d": "d. Orice proces care citește date de intrare",
+    "correct": ["a", "b", "c", "d"]
+  },
+  "53": {
+    "question": "53. Care este scopul unui „honeypot”?",
+    "a": "a. Atragerea atacatorilor pentru a le monitoriza și înțelege tacticile",
+    "b": "b. Protejarea datelor mai sensibile prin criptarea acestora într-un „honeypot”",
+    "c": "c. Identificarea și eliminarea software-ului malițios prin rularea acestuia într-o mașină virtuală „honeypot”",
+    "correct": ["a"]
+  },
+  "54": {
+    "question": "54. Ce înseamnă un exploit de tip “zero-day”?",
+    "a": "a. Un atac care exploatează o vulnerabilitate de securitate care nu este încă cunoscută de către dezvoltatorii software",
+    "b": "b. tactică de securitate folosită pentru a preveni accesul neautorizat la o rețea",
+    "c": "c. Un tip de criptare folosit pentru a proteja date sensibile",
+    "d": "d. Un exploit folosit în prima zi (“ziua zero”) după lansarea unui patch pentru o anumită vulnerabilitate",
+    "correct": ["a"]
+  },
+  "55": {
+    "question": "55. Ce presupune un atac de tip „phishing”?",
+    "a": "a. Spargerea sistemelor server (site web, server de date) aparținând unei instituții bancare",
+    "b": "b. Clonarea unui site web legitim",
+    "c": "c. Trimiterea de e-mailuri în masă prin care destinatarii sunt invitați să își divulge datele personale",
+    "correct": ["b", "c"]
+  },
+  "56": {
+    "question": "56. Ordonați următoarele forme de malware în ordine cronologică crescătoare a apariției:",
+    "a": "a. dialer, ransomware, scareware",
+    "b": "b. dialer, scareware, ransomware",
+    "c": "c. dialer, ransomware, scareware",
+    "d": "d. ransomware, dialer, scareware",
+    "correct": ["b"]
+  },
+  "57": {
+    "question": "57. Ce este ingineria socială (social engineering)?",
+    "a": "a. Utilizarea manipulării psihologice pentru a obține informații confidențiale de la diverse personae",
+    "b": "b. metodă de gestionare a proceselor existente la nivelul societății umane",
+    "c": "c. Modul în care societatea își definește propriile procese de (auto) protecție în fața pericolelor",
+    "correct": ["a"]
+  },
+  "58": {
+    "question": "58. Ce este un „ransomware”?",
+    "a": "a. Un tip de software malițios care blochează accesul utilizatorului la sistemele sau datele sale și solicită o răscumpărare pentru deblocare",
+    "b": "b. Un instrument de criptare folosit pentru a proteja date sensibile",
+    "c": "c. Un tip de atac care vizează ștergerea datelor critice",
+    "correct": ["a"]
+  },
+  "59": {
+    "question": "59. Care dintre următoarele sunt vulnerabilități/exploaturi celebre apărute recent?",
+    "a": "a. Basshole",
+    "b": "b. Shellshock",
+    "c": "c. Heartbleed",
+    "correct": ["b", "c"]
+  },
+  "60": {
+    "question": "60. Ce este un atac de tip phishing?",
+    "a": "a. Un atac care încearcă să obțină informații sensibile prin inducerea în eroare a utilizatorilor",
+    "b": "b. Un atac care are ca scop supravegherea rețelelor sociale",
+    "c": "c. Un atac care folosește software malițios pentru a compromite un system",
+    "correct": ["a"]
+  },
+  "61": {
+    "question": "61. Un rootkit este folosit pentru:",
+    "a": "a. Ascunderea urmelor lăsate de un atacator",
+    "b": "b. Oferirea unei portițe de acces (backdoor) atacatorului",
+    "c": "c. Atacarea de la distanță a unui system",
+    "correct": ["a", "b"]
+  },
+  "62": {
+    "question": "62. “Vulnerability window” înseamnă:",
+    "a": "a. Intervalul de timp dintre prima exploatare a unei vulnerabilități și dezvoltarea unui patch pentru acea vulnerabilitate",
+    "b": "b. Intervalul de timp dintre descoperirea unei vulnerabilități într-o aplicație software și dezvoltarea unui patch pentru această vulnerabilitate",
+    "c": "c. Intervalul de timp dintre infectarea sistemului și dezinfectarea acestuia",
+    "correct": ["b"]
+  },
+  "63": {
+    "question": "63. Rețelele „BotNet” sunt folosite, în general, pentru:",
+    "a": "a. Atacuri de tip DDoS",
+    "b": "b. Utilizarea distribuită a puterii de procesare a computerelor pentru sarcini care necesită resurse mari, cum ar fi: spargerea parolelor, decriptarea, minarea de criptomonede",
+    "c": "c. Trimiterea de e-mailuri nesolicitate (spam)",
+    "correct": ["a", "b", "c"]
+  },
+  "64": {
+    "question": "64. Ce este un atac de tip „Man-in-the-Middle” (MitM)?",
+    "a": "a. Un atac în care atacatorul interceptează și modifică comunicațiile dintre două entități",
+    "b": "b. Un tip de autentificare folosit pentru a accesa rețele securizate",
+    "c": "c. O metodă de atac folosită împotriva terților de încredere",
+    "correct": ["a"]
+  },
+  "65": {
+    "question": "65. Macrovirușii au următoarele avantaje față de un virus clasic scris în limbaj de asamblare:",
+    "a": "a. Găsesc în rețelele Enterprise, unde există un flux mare de documente, un mediu perfect pentru răspândire",
+    "b": "b. Sunt independenți de platformă, fiind scriși în limbaje de tip scripting",
+    "c": "c. Sarcina malițioasă (payload) adăugată de virus în fișierul infectat ocupă mai puțin spațiu",
+    "d": "d. Prin infectarea fișierelor Office, cum ar fi documente Word sau Excel, nu pot fi detectați de antivirușii bazați pe semnături",
+    "correct": ["a", "b"]
+  },
+  "66": {
+    "question": "66. Ce tip de malware se replică atașându-se fișierelor executabile sau zonelor de sistem?",
+    "a": "a. Vierme",
+    "b": "b. Trojan",
+    "c": "c. Rootkit",
+    "d": "d. Virus",
+    "correct": ["d"]
+  },
+  "67": {
+    "question": "67. Ce tip de malware se răspândește automat prin rețele, fără interacțiunea utilizatorului?",
+    "a": "a. Vierme",
+    "b": "b. Trojan",
+    "c": "c. Virus",
+    "d": "d. Botnet",
+    "correct": ["a"]
+  },
+  "68": {
+    "question": "68. Ce deosebește un troian de alte tipuri de malware?",
+    "a": "a. Se autoreplică între sisteme",
+    "b": "b. Dezactivează sistemul de operare",
+    "c": "c. Se deghizează ca un software legitim",
+    "d": "d. Necesită un rootkit pentru a funcționa",
+    "correct": ["c"]
+  },
+  "69": {
+    "question": "69. Care este funcția unui rootkit într-un sistem compromis?",
+    "a": "a. Criptează fișierele utilizatorului",
+    "b": "b. Ascunde prezența atacatorului și permite accesul viitor",
+    "c": "c. Afișează reclame pop-up",
+    "d": "d. Șterge software-ul antivirus",
+    "correct": ["b"]
+  },
+  "70": {
+    "question": "70. Ce componentă este folosită de un virus pentru a se multiplica?",
+    "a": "a. Modul de încărcare (payload)",
+    "b": "b. Interfața cu utilizatorul",
+    "c": "c. Codul de replicare",
+    "d": "d. Strat de ofuscare",
+    "correct": ["c"]
+  },
+  "71": {
+    "question": "71. Ce tip de malware preia controlul modemului pentru a apela numere cu taxă specială?",
+    "a": "a. Adware",
+    "b": "b. Spyware",
+    "c": "c. Dialer",
+    "d": "d. Rootkit",
+    "correct": ["c"]
+  },
+  "72": {
+    "question": "72. Ce este un botnet?",
+    "a": "a. O tehnică de inginerie social",
+    "b": "b. O rețea de calculatoare infectate controlate de la distanță",
+    "c": "c. O rețea peer-to-peer",
+    "d": "d. Un grup de troieni",
+    "correct": ["b"]
+  },
+  "73": {
+    "question": "73. Cum funcționează, de obicei, scareware-ul?",
+    "a": "a. Criptează datele și cere o răscumpărare",
+    "b": "b. Fură datele de autentificare",
+    "c": "c. Imită un antivirus pentru a speria utilizatorii să instaleze malware real",
+    "d": "d. Creează actualizări false de system",
+    "correct": ["c"]
+  },
+  "74": {
+    "question": "74. Care este rolul unui „botmaster”?",
+    "a": "a. Inginer antivirus",
+    "b": "b. Administrator de rețea",
+    "c": "c. Controlorul unui botnet",
+    "d": "d. Replicator de viermi",
+    "correct": ["c"]
+  },
+  "75": {
+    "question": "75. Ce face ca APT-urile (Advanced Persistent Threats) să fie deosebit de periculoase?",
+    "a": "a. Abilitatea lor de a șterge toate fișierele",
+    "b": "b. Comportamentul lor discret și de spionaj pe termen lung",
+    "c": "c. Utilizarea rețelelor sociale",
+    "d": "d. Viteza mare de infecție",
+    "correct": ["b"]
+  },
+  "76": {
+    "question": "76. Ce tip de software colectează date despre utilizator fără consimțământ explicit, dar poate părea legitim?",
+    "a": "a. Software invaziv asupra confidențialității",
+    "b": "b. Adware",
+    "c": "c. Keylogger",
+    "d": "d. Exploit zero-day",
+    "correct": ["a"]
+  },
+  "77": {
+    "question": "77. Ce este malware-ul polimorf?",
+    "a": "a. Folosește polimorfismul din programarea orientată pe obiecte",
+    "b": "b. Își modifică structura codului păstrând același comportament",
+    "c": "c. Șterge fișiere la întâmplare",
+    "d": "d. Atacă simultan mai multe sisteme de operare",
+    "correct": ["b"]
+  },
+  "78": {
+    "question": "78. Ce vulnerabilitate este exploatată printr-un atac de tip buffer overflow?",
+    "a": "a. Neconcordanțe în permisiunile fișierelor",
+    "b": "b. Lipsa verificărilor de limită la alocarea memoriei",
+    "c": "c. Configurări greșite ale firewall-ului",
+    "d": "d. Autentificare compromise",
+    "correct": ["b"]
+  },
+  "79": {
+    "question": "79. Ce protejează DEP (Data Execution Prevention)?",
+    "a": "a. Împotriva ransomware-ului",
+    "b": "b. Împotriva execuției de cod malițios în regiuni de memorie rezervate datelor",
+    "c": "c. Împotriva autentificării neautorizate",
+    "d": "d. Împotriva keyloggerelor",
+    "correct": ["b"]
+  },
+  "80": {
+    "question": "80. Ce înseamnă „fereastra de vulnerabilitate” (vulnerability window)?",
+    "a": "a. Intervalul dintre infecție și curățare",
+    "b": "b. Intervalul dintre descoperirea unei vulnerabilități și disponibilitatea unui patch",
+    "c": "c. Intervalul dintre logare și delogare",
+    "d": "d. Intervalul dintre scanare și detecție",
+    "correct": ["b"]
+  },
+  "81": {
+    "question": "81. Ce tehnică cheie este folosită în atacurile buffer overflow pentru a deturna fluxul de execuție?",
+    "a": "a. Interceptarea apelurilor de system",
+    "b": "b. Suprascrierea adresei de revenire în stivă",
+    "c": "c. Supraîncărcarea memoriei",
+    "d": "d. Schimbarea permisiunilor fișierelor",
+    "correct": ["b"]
+  },
+  "82": {
+    "question": "82. Care funcție din C este considerată periculoasă în contextul buffer overflow?",
+    "a": "a. scanf",
+    "b": "b. gets",
+    "c": "c. fopen",
+    "d": "d. fread",
+    "correct": ["b"]
+  },
+  "83": {
+    "question": "83. Ce exploatează un exploit de tip „zero-day”?",
+    "a": "a. Semnăturile antivirus",
+    "b": "b. Vulnerabilități necunoscute și nepatch-uite",
+    "c": "c. Porturi deschise",
+    "d": "d. API-uri ale rețelelor sociale",
+    "correct": ["b"]
+  },
+  "84": {
+    "question": "84. Care este scopul instrucțiunii ret în limbaj de asamblare?",
+    "a": "a. Încarcă memorie",
+    "b": "b. Execută o funcție",
+    "c": "c. Returnează controlul funcției apelante",
+    "d": "d. Alocă spațiu în stivă",
+    "correct": ["c"]
+  }
+}
