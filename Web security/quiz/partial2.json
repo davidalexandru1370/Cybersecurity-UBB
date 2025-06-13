@@ -116,7 +116,7 @@
     "a": "Generarea perechii (cheie, publica, cheie privata) implicate in procesul de semnare si verificare a certificatelor digitale emise",
     "b": "Obtinerea unui certificat digital semnat de catre o autoritate de certificare recunoascuta",
     "c": "Obtinerea unei perechi (cheie publica, cheie privata) de la o autoritate de certificare recunoascuta",
-    "correct": ["b"]
+    "correct": ["a", "b"]
   },
   "17": {
     "question": "Cerfificatele digitale autosemnate se folosesc:",
