@@ -5,7 +5,10 @@ def clear_console():
     import os
     os.system('cls' if os.name == 'nt' else 'clear')
 
-with open("quiz.json", "r") as file:
+quiz_1: str = "quiz.json"
+quiz_2: str = "partial2.json"
+
+with open(quiz_2, "r") as file:
     json_quiz: dict = json.load(file)
     length: int = len(json_quiz)
     running: bool = True
@@ -29,8 +32,9 @@ with open("quiz.json", "r") as file:
         answers = [v for k, v in q.items() if k not in ['question', 'correct']]
         correct = q['correct']
         print(text)
-        for answer in answers:
-            print(answer)
+        for index, answer in enumerate(answers):
+            letter = chr(65 + index)
+            print(f"{letter}. {answer}")
         user_input = input("Your answer(separate by comma if multiple): ").split(',')
         if set(user_input) == set(correct):
             print("\033[32mCorrect answer!\033[0m")
