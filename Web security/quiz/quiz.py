@@ -13,18 +13,18 @@ with open(quiz_2, "r") as file:
     length: int = len(json_quiz)
     running: bool = True
     asked = set()
-    correct: int = 0
+    correct_answers: int = 0
     wrong: int = 0
     while running:
         if len(asked) == length:
             asked.clear()
-            correct = 0
+            correct_answers = 0
             wrong = 0
         idx = str(random.randint(1, length))
         while idx in asked:
             idx = str(random.randint(1, length))
         asked.add(idx)
-        print(f"Correct: {correct}")
+        print(f"Correct: {correct_answers}")
         print(f"Wrong: {wrong}")
         print(f'{len(asked)}/{length}')
         q = json_quiz[idx]
@@ -37,8 +37,10 @@ with open(quiz_2, "r") as file:
             print(f"{letter}. {answer}")
         user_input = input("Your answer(separate by comma if multiple): ").split(',')
         if set(user_input) == set(correct):
+            correct_answers += 1
             print("\033[32mCorrect answer!\033[0m")
         else:
+            wrong += 1
             print("\033[31mWrong answer\033[0m")
             print("Correct answers: ", correct)
 
