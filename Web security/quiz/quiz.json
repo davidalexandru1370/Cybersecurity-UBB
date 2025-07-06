@@ -195,7 +195,7 @@
     "a": "a. Verificarea integrității și autenticității unui mesaj semnat de către persoana căreia îi este emis certificatul digital",
     "b": "b. Decriptarea unui mesaj criptat de persoana căreia îi este emis certificatul",
     "c": "c. Criptarea unui mesaj destinat persoanei căreia îi este emis certificatul",
-    "correct": ["a"]
+    "correct": ["a", "c"]
   },
   "27": {
     "question": "27. Pentru a asigura securitatea unei aplicații web, unde este locul in care trebuie plasate validările asupra",
@@ -319,7 +319,7 @@
     "a": "a. Caracterul metamorfic al acestuia",
     "b": "b. Suprascrierii anumitor apeluri de sistem de către virus",
     "c": "c. Lipsa rutinei de multiplicare a virusului",
-    "correct": ["a"]
+    "correct": ["a", "b"]
   },
   "44": {
     "question": "44. Care dintre următoarele afirmații sunt adevărate despre viruși și viermi?",
@@ -929,7 +929,7 @@
     "b": "Validari insuficiente server-side la nivelul script-ului ce prelucreaza datele din formular",
     "c": "Validari insuficiente chiar la nivelul codului JavaScript",
     "d": "Folosirea protocolului http in locul protocolului https",
-    "correct": ["b", "c"]
+    "correct": ["b"]
   },
   "125": {
     "question": "Pe un canal de comunicare securizat (spre exemplu ssh), ce trebuie sa cunoasca serverul pentru a putea autentifica cu succes un client:",
@@ -944,7 +944,7 @@
     "b": "certificatul digital al autoritatii de certificare",
     "c": "cheia privata a autoritatii de certificare",
     "d": "certificatele digitale ale partenerilor ce comunica, certificate emise de autoritatea de certificare",
-    "correct": ["d"]
+    "correct": ["c"]
   },
   "127": {
     "question": "Care dintr urmatorii termeni reprezinta algoritmi de criptare:",
@@ -966,10 +966,10 @@
   "129": {
     "question": "O semnatura digitala are urmatoarele proprietati:",
     "a": "Nepenetrabila",
-    "b": "Nealterabila",
-    "c": "Nefalsificabila",
-    "d": "Reutilizabila",
-    "correct": ["b", "c"]
+    "b": "Reutilizabila",
+    "c": "Nealterabila",
+    "d": "Nefalsificabila",
+    "correct": ["d", "c"]
   },
   "130": {
     "question": "Ce memoreaza autoritatile de marca temporala?",
@@ -990,14 +990,14 @@
     "a": "Sa isi adauge propria autoritate de certificare radacina (ROOT CA) pe calculatoarele victimelor",
     "b": "Cloneze perfectsite-ul targetat (spre exemplu site-ul unei institutii bancare)",
     "c": "Sa forteze ca victimele sa acceseze site-ul clonat prin HTTP, nu HTTPS pentru a putea intercepta traficul",
-    "correct": ["b"]
+    "correct": ["a", "b"]
   },
   "133": {
     "question": "Un certificat eliberat pentru serverul web cs.ubbcluj.ro poate fi folosit si pentru serverul de mail cs.ubbcluj.ro?",
     "a": "doar in situatia in care in certificat nu este trecut portul serviciului pentru care este eliberat",
     "b": "da, nu este nicio problema numele serverului fiind acelasi",
     "c": "nu, serverul de mail are nevoie de un certificat diferit",
-    "correct": ["c"]
+    "correct": ["b"]
   },
   "134": {
     "question": "Care este pericolul compromiterii unui certificat digital emis unui site Web in scopul autentificarii acestuia de catre clienti (compromitere in sensul aducerii acestui certificat la cunostinta publica)?",
@@ -1021,5 +1021,114 @@
     "b": "Un mecanism de prevebire a executiei zonelor de memorie ce nu contin instructiuni valide  (contin date, variable, constante)",
     "c": "O masura complementara mecanismului de randomizare a stivei pentru a preveni anumite tipuri de atacuri",
     "correct": ["a", "b"]
+  },
+  "137": {
+    "question": "Ce ii se afiseaza prima data unui client de SSH cand se conecteaza prima data la un server?",
+    "a": "Cheia publica a serverului de SSH",
+    "b": "Un hash al cheii publice a serverului de SSH",
+    "c": "Cheia privata a clientului de SSH",
+    "d": "Nu ii se afiseaza nimic",
+    "correct": ["b"]
+  },
+  "138": {
+    "question": "Ce contine codul Qr afisat de un client nou Whatsapp",
+    "a": "O cheie privata",
+    "b": "O cheie publica",
+    "c": "o cheie secreta",
+    "d": "parola utilizatorului",
+    "correct": ["b"]
+  },
+  "139": {
+    "question": "O retea virtuala privata se bazeaza pe:",
+    "a": "Incapsularea protocoalelor",
+    "b": "Criptarea datelor",
+    "c": "Tunelarea datelor",
+    "correct": ["a", "b", "c"]
+  },
+  "140": {
+    "question": "Care dintre urmatorele fisiere sunt semnate digital in cadrul unei infrastructuri PKI?",
+    "a": "Fisierul .srl al autoritatilor de certificare",
+    "b": "certificare digitale .crt",
+    "c": "cererile de eliberare si semnare a certificatelor .csr",
+    "d": "fisiere ce memoreaza chei private .key",
+    "correct": ["b", "c"]
+  },
+  "141": {
+    "question": "Which of the following methods of virus propagation can bypass detection by antivirus software?",
+    "a": "Encrypted virus",
+    "b": "File virus",
+    "c": "Polymorphic virus",
+    "correct": ["a", "c"]
+  },
+  "142": {
+    "question": "Which of the following is the most secure method to protect sensitive data at rest in a cloud storage environment?",
+    "a": "Utilizing multi-factor authentication (MFA) for all users accessing cloud storage.",
+    "b": "Storing data in plaintext and relying on access control policies to prevent unauthorized access.",
+    "c": "Encrypting data with a strong encryption algorithm before uploading it to the cloud.",
+    "d": "Using cloud provider's default encryption settings, assuming they meet industry standards.",
+    "correct": ["c"]
+  },
+  "143": {
+    "question": "How can a virus hide to be harder to detect by an antivirus?",
+    "a": "It only infects hidden files",
+    "b": "It mutates",
+    "c": "It does not remain resident in memory",
+    "d": "It redirects system calls",
+    "correct": ["b", "d"]
+  },
+  "144": {
+    "question": "Which of the following is the most effective method for protecting against supply chain attacks in the context of software development?",
+    "a": "Regular patching and updates to all third-party software libraries",
+    "b": "Implementing multifactor authentication (MFA) for all users accessing the development environment",
+    "c": "Implementing code signing and cryptographic hash verification on all software components",
+    "d": "Deploying network intrusion detection systems (NIDS) across all internal systems",
+    "correct": ["c"]
+  },
+  "145": {
+    "question": "Which of the following are common characteristics of a cyber virus?",
+    "a": "It spreads from one system to another without requiring a host file",
+    "b": "It can reproduce itself but requires user action to spread",
+    "c": "It remains active for a limited time, after which it self-destructs",
+    "d": "It installs automatically on a device by accessing a compromised website",
+    "correct": ["b"]
+  },
+  "146": {
+    "question": "Phishing attacks are generally accompanied by the following type of attacks:",
+    "a": "Denial of service",
+    "b": "Attacks involving the compromise of a web server's security",
+    "c": "Social Engineering attacks",
+    "correct": ["c", "b"]
+  },
+  "147": {
+    "question": "Which of the following attack vectors is most commonly used in advanced persistent threats (APTs) to gain initial access to an organization's network?",
+    "a": "Distributed Denial of Service (DDoS) attacks to overwhelm network resources.",
+    "b": "Phishing emails containing malicious attachments or links.",
+    "c": "SQL injection attacks targeting vulnerable web applications.",
+    "d": "Exploiting unpatched vulnerabilities in network devices.",
+    "correct": ["b"]
+  },
+  "148": {
+    "question": "Which of the following penetration testing techniques involves capturing and analyzing network traffic to obtain sensitive information?",
+    "a": "Brute-Force Attacks",
+    "b": "Vulnerability Scanning",
+    "c": "Spoofing",
+    "d": "Network Sniffing",
+    "correct": ["d"]
+  },
+  "149": {
+    "question": "Care dintre următoarele sunt caracteristici comune ale unui virus cibernetic?",
+    "a": "Se răspândește de la un sistem la altul fără a necesita un fișier gazdă",
+    "b": "Se instalează automat pe un dispozitiv prin accesarea unui site web compromis",
+    "c": "Rămâne activ pentru o perioadă limitată, după care se auto-distruge",
+    "d": "Se poate auto-reproduce, dar necesită o acțiune a utilizatorului pentru a se răspândi",
+    "correct": ["d"]
+  },
+  "150": {
+    "question": "Which of the following statements best describes External Penetration Testing?",
+    "a": "It is done without knowledge of the organization's network",
+    "b": "It involves testing the internal devices of the organization",
+    "c": "It focuses on analyzing publicly available information and evaluating the behavior of devices exposed on the Intemet",
+    "d": "It includes testing internal company systems as well as simulating attacks from within",
+    "correct": ["c"]
   }
 }
