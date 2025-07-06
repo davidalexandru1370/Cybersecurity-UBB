@@ -632,5 +632,394 @@
     "c": "c. Returnează controlul funcției apelante",
     "d": "d. Alocă spațiu în stivă",
     "correct": ["c"]
+  },
+  "85": {
+    "question": "Care dintre urmatoarele protocoale folosesc criptografia cu cheie publica?",
+    "a": "ssh",
+    "b": "nslookup (name secure lookup)",
+    "c": "smtp",
+    "d": "https",
+    "correct": ["a", "d"]
+  },
+  "86": {
+    "question": "Un cerficat digital ajuta la:",
+    "a": "Verificarea integritatii si autenticitatii unui mesaj semnat de catre persoana careia ii este emis certificatul digital",
+    "b": "Decriptarea unui mesaj criptat de catre persoana careia ii este emis certificatul",
+    "c": "Criptarea unui mesaj destinat persoanei careia ii este emis certificatul",
+    "correct": ["a"]
+  },
+  "87": {
+    "question": "Autoritatile de marca temporala care dovedesc existenta unui document de la un anumit moment de tip:",
+    "a": "Semneaza si ele documentul",
+    "b": "Stocheaza documentul",
+    "c": "Semneaza un hash al documentului",
+    "correct": ["c"]
+  },
+  "88": {
+    "question": "Cheia publica este folosita pentru:",
+    "a": "Criptarea mesajelor",
+    "b": "Verificarea semnaturii digitale",
+    "c": "Semnearea documentelor",
+    "d": "Descriptarea mesajelor",
+    "correct": ["a", "b"]
+  },
+  "89": {
+    "question": "Diseminarea in siguranta catre terti a cheii publice a unei entitati se poate face:",
+    "a": "Odata cu diseminarea spre terti a cheii private",
+    "b": "Pe un canal alternativ securizat, diferit de cel pe care urmeaza sa se faca comunicarea",
+    "c": "Prin intermediul unui certificat digital semnat",
+    "d": "Fiind vorba de cheia publica, nu trebuie luate masuri suplimentare de siguranta, toata lumea putand cunoaste aceasta cheie",
+    "correct": ["b", "c", "d"]
+  },
+  "90": {
+    "question": "Pentru a asigura securitatea unei aplicatii web, unde este locul in care trebuie plasate validarile asupra datelor introduse de catre utilizatori?",
+    "a": "Validarile privind autorizarea utilizatorilor de a efectua o actiune trebuie sa fie facute client-side, iar cele ce privesc intergitatea datelor trebuie facute sever-side",
+    "b": "Server-side",
+    "c": "Client-side",
+    "correct": ["b"]
+  },
+  "91": {
+    "question": "Increderea unui utilizator intr-o autoritate de certificare:",
+    "a": "Presupune emiterea de catre autoritatea de certificare a unui certificat digital utilizatorului",
+    "b": "Presupune cunoasterea de catre utilizator a cheii publice a autoritatii de certificare",
+    "c": "Presupune cunoasterea de catre utilizator a cheii private autoritatii de certificare",
+    "correct": ["a", "b"]
+  },
+  "92": {
+    "question": "Cum se poate fura un cookie de sesiune al unui alt utilizator?",
+    "a": "Prin interceptarea datelor la nivelul retelei de transport lipsa folosirii unei conexiuni sigure",
+    "b": "Prin lipsa invalidarii sesiunii (logout) si navigarea in continuare pe un site malitios",
+    "c": "Prin intermediul unui cod JavaScript injectat de catre atacator",
+    "correct": ["c"]
+  },
+  "93": {
+    "question": "Care dintre urmatoarele afirmatii sunt adevarate in ceea ce priveste certificatele digitale Web client-side:",
+    "a": "Sunt semnate cu aceeasi cheie privata cu care este semnat si certificatul serviciului Web",
+    "b": "Folosite impreuna cu protocolul SSL si cu autentificarea pe baza de user si parola sporesc securitatea autentificarii si identificarii utilizatorului",
+    "c": "Sunt transmise clientului exclusiv pe canale de incredere (sigure)",
+    "correct": ["b", "c"]
+  },
+  "94": {
+    "question": "Cheia privata este folosita pentru:",
+    "a": "Decriptarea mesajelor primite",
+    "b": "Criptarea mesajelor trimise",
+    "c": "Verificarea semnaturii digitale",
+    "d": "Semnarea documentelor",
+    "correct": ["a", "d"]
+  },
+  "95": {
+    "question": "Un certificat digital autosemnat:",
+    "a": "Contine cheia privata corespunzatoare cheii publice cu care se face semnarea certificatului",
+    "b": "Contine cheia publica corespunzatoare cheii private cu care se face semnarea certificatului",
+    "c": "Fiind autosemnat contine atat cheia publica cat si cheia privata corespunzatoare",
+    "correct": ["b"]
+  },
+  "96": {
+    "question": "Semnarea unui document asigura:",
+    "a": "Datarea in timp a documentului",
+    "b": "Confidentialitatea datelor continute in document",
+    "c": "Autenticitatea documentului",
+    "d": "Nemodificarea ulterioara a documentului",
+    "correct": ["c", "d"]
+  },
+  "97": {
+    "question": "Care dintre urmatoarele reprezinta masuri pentru evitarea injectarii SQL:",
+    "a": "Verificari riguroasa la nivelul backend-ului legate de validarea datelor inroduse precum si folosirea de biblioteci specializate pentru persitarea datelor (ORM-uri)",
+    "b": "Dezactivarea in cadrul aplicatiei Web a posibilitatii rularii de cod SQL de catre browser",
+    "c": "Verificari riguroase la nivelul browserului legate de validarea datelor introduse",
+    "d": "Folosirea la nivelul backend-ului de mecanisme de tipul 'prepared statement'",
+    "correct": ["a", "d"]
+  },
+  "98": {
+    "question": "Care este cel mai uzual mod de transmitere a unei chei publice catre terti:",
+    "a": "Pe un canal alternativ care nu poate fi controlat de atacator",
+    "b": "In cadrul unui certificat digitale",
+    "c": "Pe un canal de comunicare criptat pentru a asigura confidentialitatea cheii",
+    "d": "Find vorba de o cheie publica, nu este important ca, canalul pe care se transmite sa fie sigur",
+    "correct": ["b"]
+  },
+  "99": {
+    "question": "Cum se poate preveni o vulnerabilitate de tip SQL Injection?",
+    "a": "Prin limitarea lungimii pentru fiecare dintre parametrii folositi in interogari",
+    "b": "Prin utlizarea de Prepared Statements",
+    "c": "Prin adaugarea de apostroafe in jurul parametrilor folositi in interogari",
+    "correct": ["b"]
+  },
+  "100": {
+    "question": "Pentru crearea unei infrastructuri bazate pe chei publice si private este necesar:",
+    "a": "Generarea perechii (cheie, publica, cheie privata) implicate in procesul de semnare si verificare a certificatelor digitale emise",
+    "b": "Obtinerea unui certificat digital semnat de catre o autoritate de certificare recunoascuta",
+    "c": "Obtinerea unei perechi (cheie publica, cheie privata) de la o autoritate de certificare recunoascuta",
+    "correct": ["a", "b"]
+  },
+  "101": {
+    "question": "Cerfificatele digitale autosemnate se folosesc:",
+    "a": "De catre autoritatea de certificare",
+    "b": "Un certificat nu poate fi autosemnat",
+    "c": "Doar daca apartin/sunt emise de catre un utilizator si sunt semnate si de catre autoritatile de certificare",
+    "correct": ["c"]
+  },
+  "102": {
+    "question": "Pentru generarea de mesaje electronice nesolicitate, SPAM-eri folosesc:",
+    "a": "Conturi de yahoo, gmail, hotmail, etc. care nu sunt protejate",
+    "b": "Servere de mail neprotejate folosind DomainKeys Identified Mail (DKIM)",
+    "c": "Servere de mail open relay",
+    "correct": ["a", "b", "c"]
+  },
+  "103": {
+    "question": "DomainKeys Identified Mail (DKIM) ajuta la:",
+    "a": "Criptarea e-mailurilor",
+    "b": "Verificarea autenticitatii expeditorului unui e-mail",
+    "c": "Comunicarea securizata intre serverele de mail",
+    "correct": ["b"]
+  },
+  "104": {
+    "question": "Care dintre afirmatiile urmatoare, privind cheile implicate in protocolul PGP, sunt adevarate:",
+    "a": "Pentru a citi un mesaj este necesara cheia publica a destinatarului",
+    "b": "Pentru a citi un mesaj este nevoie de cheia privata a destinatarului",
+    "c": "Pentru a trimite un mesaj este necesara cheia publica a sursei",
+    "correct": ["b"]
+  },
+  "105": {
+    "question": "Care dintre urmatoarele afirmatii despre PGP sunt adevarate:",
+    "a": "Foloseste autoritati de certificare pentru verificarea certificatelor digitale",
+    "b": "Este folosit la criptarea e-mailurilor",
+    "c": "Foloseste algoritmi de criptare simetrici",
+    "correct": ["b"]
+  },
+  "106": {
+    "question": "Criptarea datelor intre parteneri se poate face in Internet la care dintre urmatoarele nivele:",
+    "a": "Aplicatie",
+    "b": "Fizic si legatura de date",
+    "c": "Retea",
+    "correct": ["a", "c"]
+  },
+  "107": {
+    "question": "Ce se intelege prin 'spargerea' functiei hash f:",
+    "a": "Pentru f(x) = y, cunsocandu-se y, reconstituirea lui x pe baza lui y",
+    "b": "Determinarea complexitatii algoritmului care implementeaza functia f",
+    "correct": ["a"]
+  },
+  "108": {
+    "question": "Care dintre urmatorii termeni reprezinta algoritmi de criptare:",
+    "a": "DSA",
+    "b": "MD5",
+    "c": "RSA",
+    "d": "DES",
+    "correct": ["a", "c", "d"]
+  },
+  "109": {
+    "question": "DomainKeys Identified Mail (DKIM) se bazeaza pe urmatorul/urmatoarele protocoale de la nivel aplicatie:",
+    "a": "SMTP",
+    "b": "SSH",
+    "c": "DNS",
+    "correct": ["c"]
+  },
+  "110": {
+    "question": "Care dintre urmatoarele afirmatii reprezinta un mecanism/ mecanisme de schimb al cheii secrete intre doi parteneri:",
+    "a": "Pe acelasi canal, daca in prealabil partenerii negociaza prin intermediul unui protocol bazat pe un algoritm de criptare simetric",
+    "b": "Pe acelasi canal, daca in prealabil partenerii negociaza prin intermediul unui protocol bazat pe un algoritm de criptare asimetric",
+    "c": "Pe un singur canal sigur, diferit de cel pe care se desfasoara comunicarea",
+    "correct": ["a", "b", "c"]
+  },
+  "111": {
+    "question": "Care dintre urmatoarele afirmatii despre procesul de schimb de chei sunt adevarate in contextul folosirii de algoritmi de criptare simetrici, respectiv asimetrici:",
+    "a": "In ambele situatii, schimbul de chei trebuie sa se desfasoare pe un alt canal / printr-un mecanism de comunicare alternativ",
+    "b": "Schimbul de chei pe un alt canal / mecanism diferit de comunicare alternativ trebuie sa se realizeze doar in cazul algoritmilor de criptare asimetrici",
+    "c": "Schimbul de chei pe un alt canal / mecanism diferit de comunicare alternativ trebuie sa se realizeze doar in cazul algoritmilor de criptare simetrici",
+    "d": "In ambele situatii, schimbul de chei se poate realiza pe acelasi canal / prin acelasi mecanism prin care are loc si comunicarea",
+    "correct": ["d"]
+  },
+  "112": {
+    "question": "Un hash poate fi decriptat cu atat mai usor cu cat:",
+    "a": "Lungimea cheii folosite de functia de hash este mai mica",
+    "b": "Calculatorul pe care se fac calculele este mai rapid",
+    "c": "Un hash nu poate fi decriptat",
+    "correct": ["c"]
+  },
+  "113": {
+    "question": "Care dintre urmatoarele vulnerabilitati ar putea fi exploatate pentru a fura sesiunea unui utilizator autentificat?",
+    "a": "SQL Injection",
+    "b": "Cross-Site scripting (XSS)",
+    "c": "Cross-Site Request Forgery (CSRF)",
+    "correct": ["b", "c"]
+  },
+  "114": {
+    "question": "Pentru a asigura securitatea unei aplicatii web, unde este locul in care trebuie plasate validarile asupra datelor introduse catre utilizatori?",
+    "a": "Validarile privind autorizarea utilizatorilor de a efectua o actiune trebuie sa fie facute client-side, iar cele ce privesc integritatea datelor trebuie facute server-side",
+    "b": "Server-side",
+    "c": "Client-side",
+    "correct": ["b"]
+  },
+  "115": {
+    "question": "Semnearea documentelor se face folosind:",
+    "a": "Cheia privata a emitatorului mesajului",
+    "b": "Cheia publica a emitatorului mesajului",
+    "c": "Cheia privata a destinatarului mesajului",
+    "d": "Cheia publica a destinatarului mesajului",
+    "correct": ["a"]
+  },
+  "116": {
+    "question": "Vulnerabilitatea functiilor de hash este data de:",
+    "a": "Baze de date ce contin perechi x, y, unde hash(x) = y",
+    "b": "Un codomeniu avand cardinalitate mica",
+    "c": "Coliziuni",
+    "d": "Compromiterea confidentialitatii algoritmului functiei de hash si aducerea acestuia la cunostinta publica",
+    "correct": ["a", "b", "c"]
+  },
+  "117": {
+    "question": "Un certificat digital contine:",
+    "a": "Cheia publica a persoanei careia ii este elibereaza certificatul",
+    "b": "Cheia publica a autoritatii de certificare care emite certificatul",
+    "c": "Cheia privata a persoanei careia ii este elibereaza certificatul",
+    "d": "Cheia privata a autoritatii de certificare care emite certificatul",
+    "correct": ["a"]
+  },
+  "118": {
+    "question": "Care dintre urmatoarele reprezinta scheme de validare a unui certificat digital:",
+    "a": "OCSP - Online Certificate Status Protocol",
+    "b": "CRLs - Certificate Revocation Lists",
+    "c": "DCVP - Digital Certificate Validation Process",
+    "correct": ["a", "b"]
+  },
+  "119": {
+    "question": "Care dintre urmatoarele reprezinta masuri pentru evitarea vulnerabilitatilor de tip XSS:",
+    "a": "Folosirea la nivelul browserului a unor biblioteci de functii JavaScript consacrate si testate anterior",
+    "b": "Verificari riguroase la nivelul browserului legate de validarea datelor introduse",
+    "c": "Dezactivarea din cadrul aplicatiei web a posibilitatii rularii de cod JavaScript de catre browser",
+    "d": "Inlocuirea anumitor caractere din datele primite de la client cu entitatile HTML corespunzatoare",
+    "correct": ["a", "d"]
+  },
+  "120": {
+    "question": "Orice algoritm de criptare poate fi spart prin:",
+    "a": "Vulnerabilitati in functia de hasing a cheii",
+    "b": "Reverse engineering (dezasamblarea) unui program ce implementeaza algoritmul de criptare",
+    "c": "Folosind calculatoare cuantice",
+    "d": "Derivarea functiei de hash folosita de algoritmii pe curbe eliptice",
+    "e": "Criptanaliza brute force",
+    "correct": ["e"]
+  },
+  "121": {
+    "question": "Pentru semnarea unui document de catre o entitate este nevoie de:",
+    "a": "Cheia publica a entitatii ce semneaza",
+    "b": "Hash-ul documentului",
+    "c": "Documentul in sine",
+    "d": "Cheia privata a entitatii ce semneaza",
+    "correct": ["b", "d"]
+  },
+  "122": {
+    "question": "Functia aplicata pe text si pe cheia privata poate asigura:",
+    "a": "Nonrepudierea mesajului",
+    "b": "Autenticitatea mesajului",
+    "c": "Integritatea mesajului",
+    "d": "Confidentialitatea mesajului",
+    "correct": ["b", "c"]
+  },
+  "123": {
+    "question": "Care dintre urmatoarele afirmatii sunt adevarate in ceea ce priveste o semnatura digitala:",
+    "a": "Semnatura digitala este de fapt un hash",
+    "b": "Orice document semnat digital poate fi datat in timp",
+    "c": "Semnatura digitala este criptata cu ajutorul unei chei private",
+    "d": "Pentru a aplica o semnatura digitala mai este nevoie de cel putin inca o parte implicata care sa semneze si ea documentul",
+    "correct": ["a", "b", "c"]
+  },
+  "124": {
+    "question": "Injectiile JavaScript se datoreaza:",
+    "a": "Unor buguri prezente la nivelul browserului web",
+    "b": "Validari insuficiente server-side la nivelul script-ului ce prelucreaza datele din formular",
+    "c": "Validari insuficiente chiar la nivelul codului JavaScript",
+    "d": "Folosirea protocolului http in locul protocolului https",
+    "correct": ["b", "c"]
+  },
+  "125": {
+    "question": "Pe un canal de comunicare securizat (spre exemplu ssh), ce trebuie sa cunoasca serverul pentru a putea autentifica cu succes un client:",
+    "a": "Doar clientul poate autentifica serverul folosind mecanisme bazate pe chei sau certificate,serverul autentifica clientul exclusiv pe baza unui nume de utilizator sia unei parole",
+    "b": "Cheia publica a clientului",
+    "c": "Cheia privata a clientului",
+    "correct": ["b"]
+  },
+  "126": {
+    "question": "Intr-o infrastructura de tip PKI, care dintre urmatoarele pot fi mentinute pe un calculator neconectat la retea",
+    "a": "cheile private ale partenerilor ce comunica",
+    "b": "certificatul digital al autoritatii de certificare",
+    "c": "cheia privata a autoritatii de certificare",
+    "d": "certificatele digitale ale partenerilor ce comunica, certificate emise de autoritatea de certificare",
+    "correct": ["d"]
+  },
+  "127": {
+    "question": "Care dintr urmatorii termeni reprezinta algoritmi de criptare:",
+    "a": "simetrici pe cheie privata: DES (Data Encryption Standard)",
+    "b": "simetrici pe cheie privata: TDES (Triple DES)",
+    "c": "simetrici pe cheie privata: AES (Advanced Encryption Standard)",
+    "d": "asimetrici pe cheie publica: PKC (Public Key Cryptography)",
+    "e": "asimetrici pe cheie publica: RSA (Rivest-Shamir-Adleman)",
+    "f": "asimetrici pe cheie publica: ElGamal",
+    "correct": ["a", "b", "c", "e", "f"]
+  },
+  "128": {
+    "question": "Care este pericolul interceptarii de catre un tert (Man in the Middle) a unei chei publice din cadrul unui certificat digitalsemnat de catre o autoritate de certificare si transmis pe un canal nesigur?",
+    "a": "Atacatorul poate inlocui cheia publica din certificat cu propria cheie publica, corespunzatoare unei chei private pe care acesta o define",
+    "b": "Atacatorul poate inlocui cheia privata din certificat cu propria cheie privata, corespunzatoare unei chei publice pe care acesta o detine",
+    "c": " Nu exista niciun pericol, destinatarul la care ajunge certificatul il poate valida pe baza semnaturii depuse de autoritatea de certificare",
+    "correct": ["a"]
+  },
+  "129": {
+    "question": "O semnatura digitala are urmatoarele proprietati:",
+    "a": "Nepenetrabila",
+    "b": "Nealterabila",
+    "c": "Nefalsificabila",
+    "d": "Reutilizabila",
+    "correct": ["b", "c"]
+  },
+  "130": {
+    "question": "Ce memoreaza autoritatile de marca temporala?",
+    "a": "documentele semnate",
+    "b": "nu memoreaza nimic, doarsemneaza, validitatea semnaturii putand fi usor dovedita cu ajutorul cheii publice a autoritatii de marca temporala",
+    "c": "cererile si raspunsurile venite spre si dinspre acestea",
+    "correct": ["c"]
+  },
+  "131": {
+    "question": "Ce se trimite unei autoritati de marca temporala pentru a dovedi ca un anumit document exista la un anumit moment de timp?",
+    "a": "un hash al documentului si o semnatura",
+    "b": "documentul semnat",
+    "c": "documentul, semnatura si momentul de timp",
+    "correct": ["a"]
+  },
+  "132": {
+    "question": "Pentru a creste gradul de reusita a unui atac de tip phishing, atacatorul trebuie sa:",
+    "a": "Sa isi adauge propria autoritate de certificare radacina (ROOT CA) pe calculatoarele victimelor",
+    "b": "Cloneze perfectsite-ul targetat (spre exemplu site-ul unei institutii bancare)",
+    "c": "Sa forteze ca victimele sa acceseze site-ul clonat prin HTTP, nu HTTPS pentru a putea intercepta traficul",
+    "correct": ["b"]
+  },
+  "133": {
+    "question": "Un certificat eliberat pentru serverul web cs.ubbcluj.ro poate fi folosit si pentru serverul de mail cs.ubbcluj.ro?",
+    "a": "doar in situatia in care in certificat nu este trecut portul serviciului pentru care este eliberat",
+    "b": "da, nu este nicio problema numele serverului fiind acelasi",
+    "c": "nu, serverul de mail are nevoie de un certificat diferit",
+    "correct": ["c"]
+  },
+  "134": {
+    "question": "Care este pericolul compromiterii unui certificat digital emis unui site Web in scopul autentificarii acestuia de catre clienti (compromitere in sensul aducerii acestui certificat la cunostinta publica)?",
+    "a": "Se pot semna documente in numele site-ului web respectiv",
+    "b": "Se poate extrage cheia publica din acel certificat, dar acest fapt nu reprezinta un pericol",
+    "c": "Se poate extrage cheia privata din acel certificat",
+    "d": "Nu exista niciun pericol",
+    "correct": ["a"]
+  },
+  "135": {
+    "question": "Care dintre urmatoarele reprezinta proprietati care trebuie sa fie respectate de catre o semnatura electronica:",
+    "a": "Nereutilizabila",
+    "b": "Nerepudiabila",
+    "c": "Nefalsificabila",
+    "d": "Nealterabila",
+    "correct": ["a", "b", "c", "d"]
+  },
+  "136": {
+    "question": "Data Execution Prevention se refera la:",
+    "a": "Un mecanism pentru a preveni atacurile ce presupun injectarea de cod executabil pe stiva",
+    "b": "Un mecanism de prevebire a executiei zonelor de memorie ce nu contin instructiuni valide  (contin date, variable, constante)",
+    "c": "O masura complementara mecanismului de randomizare a stivei pentru a preveni anumite tipuri de atacuri",
+    "correct": ["a", "b"]
   }
 }

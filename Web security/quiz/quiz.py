@@ -8,7 +8,7 @@ def clear_console():
 quiz_1: str = "quiz.json"
 quiz_2: str = "partial2.json"
 
-with open(quiz_2, "r") as file:
+with open(quiz_1, "r") as file:
     json_quiz: dict = json.load(file)
     length: int = len(json_quiz)
     running: bool = True
