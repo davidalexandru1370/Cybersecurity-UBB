@@ -14,7 +14,7 @@
     "c": "c. nefalsificabila",
     "d": "d. autentica",
     "e": "e. nealterabila",
-    "correct": ["b", "c", "d", "e"]
+    "correct": ["a", "b", "c", "d", "e"]
   },
   "3": {
     "question": "3. Care este cel mai uzual mod de transmitere a unei chei publice catre terti:",
@@ -26,7 +26,7 @@
   },
   "4": {
     "question": "4. Care dintre urmatoarele mecanisme limiteaza succesul exploit-urilor de tip shell code?",
-    "a": "a. Arhivarea (compactarestivei",
+    "a": "a. Arhivarea (compactarea) stivei",
     "b": "b. Randomizarea stivei",
     "c": "c. Data Execution Prevention",
     "d": "d. Inlaturarea bitului de executie de pe programul atacat",
@@ -82,7 +82,7 @@
     "b": "b. Orice document semnat digital poate fi datat în timp",
     "c": "c. Pentru a aplica o semnătură digitală, mai este nevoie de cel puțin încă o parte implicată care să semneze și ea documentul (autoritate de certificare, notar electronic, partenerul cu care se semnează un contract digital, etc.)",
     "d": "d. Semnătura digitală este criptată cu ajutorul unei chei private",
-    "correct": ["b", "d"]
+    "correct": ["a", "b", "d"]
   },
   "12": {
     "question": "12. Ce memorează autoritățile de marcă temporală?",
@@ -154,11 +154,11 @@
   },
   "21": {
     "question": "21.Care este pericolul compromiterii unui certificat digital emis unui site Web în scopul autentificării acestuia de către clienți (compromitere în sensul aducerii acestui certificat la cunoștință publică)?",
-    "c": "c. Se pot semna documente în numele site-ului web respectiv",
     "a": "a. Se poate extrage cheia publică din acel certificat, dar acest fapt nu reprezintă un pericol",
     "b": "b. Se poate extrage cheia privată din acel certificat",
+    "c": "c. Se pot semna documente în numele site-ului web respectiv",
     "d": "d. Nu există niciun pericol",
-    "correct": ["a", "d"]
+    "correct": ["a"]
   },
   "22": {
     "question": "22. Autoritățile de marcă temporală care dovedesc existența unui document la un anumit moment de tip:",
@@ -173,7 +173,7 @@
     "b": "b. nonrepudierea mesajului",
     "c": "c. autenticitatea mesajului",
     "d": "d. integritatea mesajului",
-    "correct": ["b", "c", "d"]
+    "correct": ["b", "c"]
   },
   "24": {
     "question": "24. Care dintre următoarele reprezintă scheme de validare a unui 3ertificate digital:",
@@ -199,7 +199,6 @@
   },
   "27": {
     "question": "27. Pentru a asigura securitatea unei aplicații web, unde este locul in care trebuie plasate validările asupra",
-    "d": "datelor introduse de utilizatori?",
     "a": "a. validările privind autorizarea utilizatorilor de a efectua o acțiune trebuie să fie făcute client-side, iar cele",
     "c": "c. client-side",
     "b": "b. server-side",
@@ -239,7 +238,7 @@
     "a": "a. Generarea perechii (cheie publică, cheie privată) implicate în procesul de semnare și verificare a certificatelor digitale emise",
     "b": "b. Obținerea unui certificat digital semnat de către o autoritate de certificare recunoscută",
     "c": "c. Obținerea unei perechi (cheie publică, cheie privată) de la o autoritate de certificare recunoscută",
-    "correct": ["a", "b"]
+    "correct": ["a"]
   },
   "33": {
     "question": "33. Care dintre următoarele afirmații despre un „exploit” sunt adevărate?",
@@ -312,7 +311,7 @@
     "a": "a. Pentru a avea o portiță de acces pentru accesarea ulterioară a sistemului",
     "b": "b. Pentru a accesa sistemul ca root (superuser)",
     "c": "c. Pentru a-și ascunde urmele",
-    "correct": ["a", "b", "c"]
+    "correct": ["a", "c"]
   },
   "43": {
     "question": "43. Detectarea unui virus poate fi îngreunată de:",
@@ -646,7 +645,7 @@
     "a": "Verificarea integritatii si autenticitatii unui mesaj semnat de catre persoana careia ii este emis certificatul digital",
     "b": "Decriptarea unui mesaj criptat de catre persoana careia ii este emis certificatul",
     "c": "Criptarea unui mesaj destinat persoanei careia ii este emis certificatul",
-    "correct": ["a"]
+    "correct": ["a", "c"]
   },
   "87": {
     "question": "Autoritatile de marca temporala care dovedesc existenta unui document de la un anumit moment de tip:",
@@ -669,7 +668,7 @@
     "b": "Pe un canal alternativ securizat, diferit de cel pe care urmeaza sa se faca comunicarea",
     "c": "Prin intermediul unui certificat digital semnat",
     "d": "Fiind vorba de cheia publica, nu trebuie luate masuri suplimentare de siguranta, toata lumea putand cunoaste aceasta cheie",
-    "correct": ["b", "c", "d"]
+    "correct": ["c"]
   },
   "90": {
     "question": "Pentru a asigura securitatea unei aplicatii web, unde este locul in care trebuie plasate validarile asupra datelor introduse de catre utilizatori?",
@@ -683,14 +682,14 @@
     "a": "Presupune emiterea de catre autoritatea de certificare a unui certificat digital utilizatorului",
     "b": "Presupune cunoasterea de catre utilizator a cheii publice a autoritatii de certificare",
     "c": "Presupune cunoasterea de catre utilizator a cheii private autoritatii de certificare",
-    "correct": ["a", "b"]
+    "correct": ["b"]
   },
   "92": {
     "question": "Cum se poate fura un cookie de sesiune al unui alt utilizator?",
     "a": "Prin interceptarea datelor la nivelul retelei de transport lipsa folosirii unei conexiuni sigure",
     "b": "Prin lipsa invalidarii sesiunii (logout) si navigarea in continuare pe un site malitios",
     "c": "Prin intermediul unui cod JavaScript injectat de catre atacator",
-    "correct": ["c"]
+    "correct": ["b", "c"]
   },
   "93": {
     "question": "Care dintre urmatoarele afirmatii sunt adevarate in ceea ce priveste certificatele digitale Web client-side:",
@@ -750,14 +749,14 @@
     "a": "Generarea perechii (cheie, publica, cheie privata) implicate in procesul de semnare si verificare a certificatelor digitale emise",
     "b": "Obtinerea unui certificat digital semnat de catre o autoritate de certificare recunoascuta",
     "c": "Obtinerea unei perechi (cheie publica, cheie privata) de la o autoritate de certificare recunoascuta",
-    "correct": ["a", "b"]
+    "correct": ["a"]
   },
   "101": {
     "question": "Cerfificatele digitale autosemnate se folosesc:",
     "a": "De catre autoritatea de certificare",
     "b": "Un certificat nu poate fi autosemnat",
     "c": "Doar daca apartin/sunt emise de catre un utilizator si sunt semnate si de catre autoritatile de certificare",
-    "correct": ["c"]
+    "correct": ["a"]
   },
   "102": {
     "question": "Pentru generarea de mesaje electronice nesolicitate, SPAM-eri folosesc:",
@@ -813,7 +812,7 @@
     "a": "SMTP",
     "b": "SSH",
     "c": "DNS",
-    "correct": ["c"]
+    "correct": ["c", "a"]
   },
   "110": {
     "question": "Care dintre urmatoarele afirmatii reprezinta un mecanism/ mecanisme de schimb al cheii secrete intre doi parteneri:",
@@ -842,7 +841,7 @@
     "a": "SQL Injection",
     "b": "Cross-Site scripting (XSS)",
     "c": "Cross-Site Request Forgery (CSRF)",
-    "correct": ["b", "c"]
+    "correct": ["b"]
   },
   "114": {
     "question": "Pentru a asigura securitatea unei aplicatii web, unde este locul in care trebuie plasate validarile asupra datelor introduse catre utilizatori?",
@@ -1020,7 +1019,7 @@
     "a": "Un mecanism pentru a preveni atacurile ce presupun injectarea de cod executabil pe stiva",
     "b": "Un mecanism de prevebire a executiei zonelor de memorie ce nu contin instructiuni valide  (contin date, variable, constante)",
     "c": "O masura complementara mecanismului de randomizare a stivei pentru a preveni anumite tipuri de atacuri",
-    "correct": ["a", "b"]
+    "correct": ["a", "c"]
   },
   "137": {
     "question": "Ce ii se afiseaza prima data unui client de SSH cand se conecteaza prima data la un server?",
@@ -1130,5 +1129,12 @@
     "c": "It focuses on analyzing publicly available information and evaluating the behavior of devices exposed on the Intemet",
     "d": "It includes testing internal company systems as well as simulating attacks from within",
     "correct": ["c"]
+  },
+  "151": {
+    "question": "Virusii pot suferi mutatii datorita:",
+    "a": "caracterului polimorfic",
+    "b": "rescrierii unor noi variante de catre terti",
+    "c": "caracterului metamorphic",
+    "correct": ["a", "b", "c"]
   }
 }
