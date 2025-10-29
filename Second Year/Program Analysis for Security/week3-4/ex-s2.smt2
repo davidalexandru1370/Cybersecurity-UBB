@@ -1,0 +1,31 @@
+(declare-const Verification Bool)
+(declare-const ComputerScienceModelling Bool)
+(declare-const Statistics Bool)
+(declare-const DiscreteMath Bool)
+(declare-const Physics Bool)
+(declare-const Chemistry Bool)
+
+(assert
+    (and
+        (or ComputerScienceModelling Physics Chemistry)
+        (=> ComputerScienceModelling DiscreteMath)
+        (=> Verification ComputerScienceModelling )
+        (=> (or Physics Chemistry) Statistics)
+        (xor Statistics DiscreteMath)
+        (xor ComputerScienceModelling Physics)
+        (xor Verification Chemistry)
+    )
+)
+
+(push)
+(echo "Is it possible to attend Verification and all required courses?")
+(assert Verification)
+(check-sat)
+(get-model)
+(pop)
+
+(push)
+(echo "Is it possible to attend Discrete Math, Physics, and all required courses?")
+(assert (and DiscreteMath Physics))
+(check-sat)
+(pop)
