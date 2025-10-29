@@ -30,5 +30,25 @@
 
 ; Bob does not want to sit to the right of Charlie
 
+(assert
+   (and
+       (=> CL (not BM))
+       (=> CM (not BR))
+   )
+)
+
+; Everyone gets a chair
+(assert
+	(or AL AM AR)
+)
+(assert
+	(or CL CM CR)
+)
+(assert
+	(or BL BM BR)
+)
 
 
+
+
+(check-sat)
