@@ -1,0 +1,29 @@
+version: "3.8"
+
+networks:
+  dev:
+    driver: bridge
+
+services:
+  db:
+    image: postgres:latest
+    container_name: backend-db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=AcademicInfoDB
+    restart: always
+    ports:
+      - "5433:5432"
+    volumes:
+      - app_data:/var/lib/postgresql
+    networks:
+      - dev
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  app_data:
