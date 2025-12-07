@@ -1,27 +1,38 @@
 package com.example.backend.core.domain;
 
 import java.util.Date;
-import java.util.Optional;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
 @Entity
 @Table
 public class Submission {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "submission_id_gen")
+    @SequenceGenerator(name = "submission_id_gen", sequenceName = "submission_id_seq")
     private Long id;
-    private Long assignmentId;
-    private Long studentId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Assignment assignment;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User student;
     private String content;
-    private Optional<Float> grade;
-    private Optional<String> feedback;
+    @Column(name = "grade", nullable = true)
+    private Float grade;
+    private String feedback;
     private Date submittedAt;
 
-    public Submission(Long assignmentId, Long studentId, String content, Date submittedAt) {
-        this.assignmentId = assignmentId;
-        this.studentId = studentId;
+    public Submission() {
+    }
+
+    public Submission(String content, Date submittedAt) {
         this.content = content;
         this.submittedAt = submittedAt;
     }
@@ -34,22 +45,6 @@ public class Submission {
         this.id = id;
     }
 
-    public Long getAssignmentId() {
-        return assignmentId;
-    }
-
-    public void setAssignmentId(Long assignmentId) {
-        this.assignmentId = assignmentId;
-    }
-
-    public Long getStudentId() {
-        return studentId;
-    }
-
-    public void setStudentId(Long studentId) {
-        this.studentId = studentId;
-    }
-
     public String getContent() {
         return content;
     }
@@ -58,19 +53,19 @@ public class Submission {
         this.content = content;
     }
 
-    public Optional<Float> getGrade() {
+    public Float getGrade() {
         return grade;
     }
 
-    public void setGrade(Optional<Float> grade) {
+    public void setGrade(Float grade) {
         this.grade = grade;
     }
 
-    public Optional<String> getFeedback() {
+    public String getFeedback() {
         return feedback;
     }
 
-    public void setFeedback(Optional<String> feedback) {
+    public void setFeedback(String feedback) {
         this.feedback = feedback;
     }
 

@@ -11,7 +11,7 @@ import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "user")
+@Table(name = "\"user\"")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_gen")
@@ -27,6 +27,9 @@ public class User {
 
     @Column(name = "role", nullable = false, length = 50)
     private String role;
+
+    public User() {
+    }
 
     public User(String email, String password, Role role) {
         this.email = email;

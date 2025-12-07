@@ -2,24 +2,37 @@ package com.example.backend.core.domain;
 
 import java.util.Date;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "assignment")
 public class Assignment {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "assignment_id_gen")
+    @SequenceGenerator(name = "assignment_id_gen", sequenceName = "assignment_id_seq")
     private Long id;
     private String title;
     private String description;
-    private Long courseId;
-    private Long teacherId;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Course course;
+    @OneToOne(fetch = FetchType.LAZY)
+    private User teacher;
     private Date dueDate;
 
-    public Assignment(String title, String description, Long courseId, Long teacherId, Date dueDate) {
+    public Assignment() {
+    }
+
+    public Assignment(String title, String description, Date dueDate) {
         this.title = title;
         this.description = description;
-        this.courseId = courseId;
-        this.teacherId = teacherId;
         this.dueDate = dueDate;
     }
 
@@ -47,24 +60,12 @@ public class Assignment {
         this.description = description;
     }
 
-    public Long getCourseId() {
-        return courseId;
-    }
-
-    public void setCourseId(Long courseId) {
-        this.courseId = courseId;
-    }
-
     public Date getDueDate() {
         return dueDate;
     }
 
     public void setDueDate(Date dueDate) {
         this.dueDate = dueDate;
-    }
-
-    public Long getTeacherId() {
-        return teacherId;
     }
 
 }
