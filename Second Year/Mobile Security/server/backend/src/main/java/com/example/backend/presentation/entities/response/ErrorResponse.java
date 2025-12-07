@@ -11,4 +11,16 @@ public class ErrorResponse<T, I> extends BaseResponse<T> {
         this.errorMessage = errorMessage;
         this.statusCode = statusCode;
     }
+
+    public I getInitialPayload() {
+        return initialPayload;
+    }
+
+    public int getStatusCode() {
+        return statusCode;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
 }

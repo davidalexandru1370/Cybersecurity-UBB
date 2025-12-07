@@ -2,7 +2,6 @@ package com.example.backend.business.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +15,6 @@ import com.example.backend.core.exceptions.ExpiredTokenException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.Keys;
 
@@ -71,14 +69,14 @@ public class UserService implements IUserService {
         long now = System.currentTimeMillis();
         Date issuedAt = new Date(now);
         Date expiry = new Date(now + jwtExpirationMs);
+        var secretKey = getSecretKey(this.jwtSecret);
 
         String token = Jwts.builder()
                 .subject(email)
                 .claim("id", id)
                 .issuedAt(issuedAt)
                 .expiration(expiry)
-                .signWith(null)
-                .signWith(SignatureAlgorithm.HS256, jwtSecret)
+                .signWith(secretKey, Jwts.SIG.HS256)
                 .compact();
 
         return token;

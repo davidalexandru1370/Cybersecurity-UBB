@@ -8,4 +8,12 @@ public class AuthResponse {
         this.success = success;
         this.token = token;
     }
+
+    public Boolean getSuccess() {
+        return success;
+    }
+
+    public String getToken() {
+        return token;
+    }
 }
