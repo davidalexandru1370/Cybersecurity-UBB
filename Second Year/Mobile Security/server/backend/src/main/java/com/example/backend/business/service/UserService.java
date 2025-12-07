@@ -11,6 +11,7 @@ import com.example.backend.business.service.interfaces.IUserService;
 import com.example.backend.core.domain.User;
 import com.example.backend.core.exceptions.ExistingAccountException;
 import com.example.backend.core.exceptions.ExpiredTokenException;
+import com.example.backend.core.exceptions.NotFoundException;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -102,6 +103,16 @@ public class UserService implements IUserService {
     private SecretKey getSecretKey(String secret) {
         byte[] keyBytes = secret.getBytes();
         return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    @Override
+    public User getUserById(String id) throws NotFoundException {
+        var user = userRepository.findById(Long.parseLong(id));
+        if (user.isPresent()) {
+            return user.get();
+        }
+
+        throw new NotFoundException("User does not exist");
     }
 
 }

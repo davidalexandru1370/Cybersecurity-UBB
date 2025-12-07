@@ -1,11 +1,8 @@
 package com.example.backend.presentation.entities.request;
 
-import com.example.backend.core.enums.Role;
-
-public class CreateUserRequest {
+public class LoginUserRequest {
     private String username;
     private String password;
-    private Role role;
 
     public String getUsername() {
         return username;
@@ -21,9 +18,5 @@ public class CreateUserRequest {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public Role getRole() {
-        return role;
     }
 }
