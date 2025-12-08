@@ -70,4 +70,12 @@ public class Assignment {
         this.dueDate = dueDate;
     }
 
+    public Course getCourse() {
+        return course;
+    }
+
+    public User getTeacher() {
+        return teacher;
+    }
+
 }

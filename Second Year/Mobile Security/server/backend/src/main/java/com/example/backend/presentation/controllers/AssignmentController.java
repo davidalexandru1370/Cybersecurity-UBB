@@ -1,15 +1,20 @@
 package com.example.backend.presentation.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import com.example.backend.presentation.entities.response.ErrorResponse;
+
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.backend.business.entities.AssignmentDTO;
 import com.example.backend.business.entities.CreateAssignmentDTO;
 import com.example.backend.business.service.interfaces.IAssignmentService;
 import com.example.backend.core.exceptions.NotFoundException;
@@ -36,6 +41,22 @@ public class AssignmentController {
         } catch (Exception e) {
             var response = new ErrorResponse<Long, CreateAssignmentDTO>(createAssignmentDTO, "Internal server error",
                     500);
+            return ResponseEntity.status(500).body(response);
+        }
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<BaseResponse<List<AssignmentDTO>>> getAssignments(@AuthenticationPrincipal UserDetails user) {
+        try {
+            Long userId = Long.parseLong(user.getUsername());
+            List<AssignmentDTO> assignments = assignmentService.getStudentAssignments(userId);
+            var response = new BaseResponse<List<AssignmentDTO>>(assignments, 200);
+            return ResponseEntity.ok(response);
+        } catch (NotFoundException e) {
+            var response = new ErrorResponse<List<AssignmentDTO>, String>(null, e.getMessage(), 404);
+            return ResponseEntity.status(404).body(response);
+        } catch (Exception e) {
+            var response = new ErrorResponse<List<AssignmentDTO>, String>(null, "Internal server error", 500);
             return ResponseEntity.status(500).body(response);
         }
     }

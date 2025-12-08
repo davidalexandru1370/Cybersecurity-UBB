@@ -2,6 +2,7 @@ package com.example.backend.business.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,10 +10,12 @@ import org.springframework.stereotype.Service;
 import com.example.backend.business.entities.AssignmentDTO;
 import com.example.backend.business.entities.CreateAssignmentDTO;
 import com.example.backend.business.entities.UpdateAssignmentDTO;
+import com.example.backend.business.repository.AssigneesRepository;
 import com.example.backend.business.repository.AssignmentRepository;
 import com.example.backend.business.repository.CourseRepository;
 import com.example.backend.business.repository.UserRepository;
 import com.example.backend.business.service.interfaces.IAssignmentService;
+import com.example.backend.core.domain.Assignees;
 import com.example.backend.core.domain.Assignment;
 import com.example.backend.core.exceptions.NotFoundException;
 
@@ -20,6 +23,9 @@ import com.example.backend.core.exceptions.NotFoundException;
 public class AssignmentService implements IAssignmentService {
     @Autowired
     private AssignmentRepository assignmentRepository;
+
+    @Autowired
+    private AssigneesRepository assigneesRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -43,6 +49,12 @@ public class AssignmentService implements IAssignmentService {
                 dueDate, course, teacher);
 
         assignment = assignmentRepository.save(assignment);
+        for (var studentId : createAssignmentDTO.getStudents()) {
+            var student = userRepository.findById(studentId)
+                    .orElseThrow(() -> new NotFoundException("Student not found"));
+            var assignee = new Assignees(assignment, student);
+            assigneesRepository.save(assignee);
+        }
 
         return assignment.getId();
     }
@@ -60,15 +72,29 @@ public class AssignmentService implements IAssignmentService {
     }
 
     @Override
-    public AssignmentDTO getAssignmentById(Long assignmentId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAssignmentById'");
+    public AssignmentDTO getAssignmentById(Long assignmentId) throws NotFoundException {
+        Assignment assignment = assignmentRepository.findById(assignmentId)
+                .orElseThrow(() -> new NotFoundException("Assignment not found"));
+
+        return new AssignmentDTO(assignmentId, assignment.getTitle(), assignment.getDescription(),
+                assignment.getCourse().getId(), Optional.ofNullable(assignment.getDueDate()));
     }
 
     @Override
     public List<AssignmentDTO> getStudentAssignments(Long studentId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getStudentAssignments'");
-    }
+        var assignees = assigneesRepository.findByUser_Id(studentId);
 
+        var assignments = assignees.stream()
+                .map(a -> {
+                    var assignment = a.getAssignment();
+                    return new AssignmentDTO(
+                            assignment.getId(),
+                            assignment.getTitle(),
+                            assignment.getDescription(),
+                            assignment.getCourse().getId(),
+                            Optional.ofNullable(assignment.getDueDate()));
+                })
+                .toList();
+        return assignments;
+    }
 }

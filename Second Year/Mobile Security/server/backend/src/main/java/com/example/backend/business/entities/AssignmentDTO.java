@@ -1,5 +1,6 @@
 package com.example.backend.business.entities;
 
+import java.util.Date;
 import java.util.Optional;
 
 public class AssignmentDTO {
@@ -7,16 +8,13 @@ public class AssignmentDTO {
     private String title;
     private String description;
     private Long courseId;
-    private Optional<Long> dueDate;
-    private Optional<Float> grade;
-    private Optional<String> feedback;
+    private Optional<Date> dueDate;
 
     public AssignmentDTO() {
 
     }
 
-    public AssignmentDTO(Long id, String title, String description, Long courseId, Optional<Long> dueDate,
-            Optional<Float> grade, Optional<String> feedback) {
+    public AssignmentDTO(Long id, String title, String description, Long courseId, Optional<Date> dueDate) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -56,19 +54,11 @@ public class AssignmentDTO {
         this.courseId = courseId;
     }
 
-    public Optional<Long> getDueDate() {
+    public Optional<Date> getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(Optional<Long> dueDate) {
+    public void setDueDate(Optional<Date> dueDate) {
         this.dueDate = dueDate;
-    }
-
-    public Optional<Float> getGrade() {
-        return grade;
-    }
-
-    public Optional<String> getFeedback() {
-        return feedback;
     }
 }

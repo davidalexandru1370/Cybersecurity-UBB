@@ -13,8 +13,8 @@ public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "course_id_gen")
     @SequenceGenerator(name = "course_id_gen", sequenceName = "course_id_seq")
-    public Long id;
-    public String name;
+    private Long id;
+    private String name;
 
     public Course() {
     }
