@@ -97,4 +97,21 @@ public class AssignmentService implements IAssignmentService {
                 .toList();
         return assignments;
     }
+
+    @Override
+    public List<AssignmentDTO> getTeacherAssignments(Long teacherId) throws NotFoundException {
+        var assignments = assignmentRepository.findByTeacher_Id(teacherId).stream()
+                .map(assignment -> {
+
+                    return new AssignmentDTO(
+                            assignment.getId(),
+                            assignment.getTitle(),
+                            assignment.getDescription(),
+                            assignment.getCourse().getId(),
+                            Optional.ofNullable(assignment.getDueDate()));
+                })
+                .toList();
+
+        return assignments;
+    }
 }

@@ -45,11 +45,29 @@ public class AssignmentController {
         }
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<BaseResponse<List<AssignmentDTO>>> getAssignments(@AuthenticationPrincipal UserDetails user) {
+    @GetMapping("/stud/all")
+    public ResponseEntity<BaseResponse<List<AssignmentDTO>>> getStudentsAssignments(
+            @AuthenticationPrincipal UserDetails user) {
         try {
             Long userId = Long.parseLong(user.getUsername());
             List<AssignmentDTO> assignments = assignmentService.getStudentAssignments(userId);
+            var response = new BaseResponse<List<AssignmentDTO>>(assignments, 200);
+            return ResponseEntity.ok(response);
+        } catch (NotFoundException e) {
+            var response = new ErrorResponse<List<AssignmentDTO>, String>(null, e.getMessage(), 404);
+            return ResponseEntity.status(404).body(response);
+        } catch (Exception e) {
+            var response = new ErrorResponse<List<AssignmentDTO>, String>(null, "Internal server error", 500);
+            return ResponseEntity.status(500).body(response);
+        }
+    }
+
+    @GetMapping("/teacher/all")
+    public ResponseEntity<BaseResponse<List<AssignmentDTO>>> getTeachersAssignments(
+            @AuthenticationPrincipal UserDetails user) {
+        try {
+            Long userId = Long.parseLong(user.getUsername());
+            List<AssignmentDTO> assignments = assignmentService.getTeacherAssignments(userId);
             var response = new BaseResponse<List<AssignmentDTO>>(assignments, 200);
             return ResponseEntity.ok(response);
         } catch (NotFoundException e) {

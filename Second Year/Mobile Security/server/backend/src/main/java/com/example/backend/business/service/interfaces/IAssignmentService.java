@@ -17,4 +17,6 @@ public interface IAssignmentService {
     AssignmentDTO getAssignmentById(Long assignmentId) throws NotFoundException;
 
     List<AssignmentDTO> getStudentAssignments(Long studentId) throws NotFoundException;
+
+    List<AssignmentDTO> getTeacherAssignments(Long teacherId) throws NotFoundException;
 }
