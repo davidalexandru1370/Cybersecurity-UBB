@@ -30,10 +30,12 @@ public class Assignment {
     public Assignment() {
     }
 
-    public Assignment(String title, String description, Date dueDate) {
+    public Assignment(String title, String description, Date dueDate, Course course, User teacher) {
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
+        this.course = course;
+        this.teacher = teacher;
     }
 
     public Long getId() {

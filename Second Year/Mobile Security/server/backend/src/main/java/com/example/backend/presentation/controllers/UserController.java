@@ -35,7 +35,7 @@ public class UserController {
 
     @PostMapping("/login")
     @Operation(security = {})
-    public ResponseEntity<BaseResponse<AuthResponse>> login(@RequestBody CreateUserRequest request) {
+    public ResponseEntity<BaseResponse<AuthResponse>> login(@RequestBody LoginUserRequest request) {
         var isValid = userService.validateUserCredentials(request.getUsername(), request.getPassword());
 
         if (isValid) {
@@ -46,14 +46,14 @@ public class UserController {
                     HttpStatus.OK.value()));
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new ErrorResponse<AuthResponse, CreateUserRequest>(request, "Invalid credentials",
+                    .body(new ErrorResponse<AuthResponse, LoginUserRequest>(request, "Invalid credentials",
                             HttpStatus.UNAUTHORIZED.value()));
         }
     }
 
     @PostMapping("/register")
     @Operation(security = {})
-    public ResponseEntity<BaseResponse<AuthResponse>> register(@RequestBody LoginUserRequest request) {
+    public ResponseEntity<BaseResponse<AuthResponse>> register(@RequestBody CreateUserRequest request) {
         try {
             var createUserDto = new CreateUserDTO(request.getUsername(), request.getPassword(), Role.STUDENT);
             var user = userService.createUser(createUserDto);
@@ -62,11 +62,11 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.OK).body(new BaseResponse<>(authResponse, 201));
         } catch (ExistingAccountException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body(new ErrorResponse<AuthResponse, LoginUserRequest>(request, e.getMessage(),
+                    .body(new ErrorResponse<AuthResponse, CreateUserRequest>(request, e.getMessage(),
                             HttpStatus.CONFLICT.value()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ErrorResponse<AuthResponse, LoginUserRequest>(request, "Internal server error",
+                    .body(new ErrorResponse<AuthResponse, CreateUserRequest>(request, "Internal server error",
                             HttpStatus.INTERNAL_SERVER_ERROR.value()));
         }
     }
