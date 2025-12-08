@@ -22,6 +22,8 @@ import com.example.backend.presentation.entities.response.BaseResponse;
 import com.example.backend.presentation.entities.response.ErrorResponse;
 import com.example.backend.presentation.entities.response.UserInfoResponse;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController()
@@ -32,6 +34,7 @@ public class UserController {
     private IUserService userService;
 
     @PostMapping("/login")
+    @Operation(security = {})
     public ResponseEntity<BaseResponse<AuthResponse>> login(@RequestBody CreateUserRequest request) {
         var isValid = userService.validateUserCredentials(request.getUsername(), request.getPassword());
 
@@ -49,6 +52,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
+    @Operation(security = {})
     public ResponseEntity<BaseResponse<AuthResponse>> register(@RequestBody LoginUserRequest request) {
         try {
             var createUserDto = new CreateUserDTO(request.getUsername(), request.getPassword(), Role.STUDENT);
