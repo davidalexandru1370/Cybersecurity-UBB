@@ -38,7 +38,7 @@ public class JwtUtil {
     public Boolean validateToken(String token) {
         try {
             SecretKey key = getSecretKey(this.jwtSecret);
-            Jwts.parser().decryptWith(key).build().parseSignedClaims(token);
+            Jwts.parser().verifyWith(key).build().parse(token);
             return true;
         } catch (Exception e) {
             return false;

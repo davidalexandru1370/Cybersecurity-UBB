@@ -77,7 +77,7 @@ public class UserService implements IUserService {
                 .claim("id", id)
                 .issuedAt(issuedAt)
                 .expiration(expiry)
-                .signWith(secretKey, Jwts.SIG.HS256)
+                .signWith(secretKey)
                 .compact();
 
         return token;
