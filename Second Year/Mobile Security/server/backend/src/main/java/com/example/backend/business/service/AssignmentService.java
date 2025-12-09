@@ -9,14 +9,18 @@ import org.springframework.stereotype.Service;
 
 import com.example.backend.business.entities.AssignmentDTO;
 import com.example.backend.business.entities.CreateAssignmentDTO;
+import com.example.backend.business.entities.EvaluateSubmissionDTO;
+import com.example.backend.business.entities.SubmitAssignmentDTO;
 import com.example.backend.business.entities.UpdateAssignmentDTO;
 import com.example.backend.business.repository.AssigneesRepository;
 import com.example.backend.business.repository.AssignmentRepository;
 import com.example.backend.business.repository.CourseRepository;
+import com.example.backend.business.repository.SubmissionRepository;
 import com.example.backend.business.repository.UserRepository;
 import com.example.backend.business.service.interfaces.IAssignmentService;
 import com.example.backend.core.domain.Assignees;
 import com.example.backend.core.domain.Assignment;
+import com.example.backend.core.domain.Submission;
 import com.example.backend.core.exceptions.NotFoundException;
 
 @Service
@@ -26,6 +30,9 @@ public class AssignmentService implements IAssignmentService {
 
     @Autowired
     private AssigneesRepository assigneesRepository;
+
+    @Autowired
+    private SubmissionRepository submissionRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -102,7 +109,6 @@ public class AssignmentService implements IAssignmentService {
     public List<AssignmentDTO> getTeacherAssignments(Long teacherId) throws NotFoundException {
         var assignments = assignmentRepository.findByTeacher_Id(teacherId).stream()
                 .map(assignment -> {
-
                     return new AssignmentDTO(
                             assignment.getId(),
                             assignment.getTitle(),
@@ -113,5 +119,32 @@ public class AssignmentService implements IAssignmentService {
                 .toList();
 
         return assignments;
+    }
+
+    @Override
+    public void gradeAssignment(EvaluateSubmissionDTO evaluateSubmissionDTO) throws NotFoundException {
+        var submission = submissionRepository.findById(evaluateSubmissionDTO.getSubmissionId())
+                .orElseThrow(() -> new NotFoundException("Submission not found"));
+
+        submission.setGrade(evaluateSubmissionDTO.getGrade());
+        submission.setFeedback(evaluateSubmissionDTO.getFeedback());
+
+        submissionRepository.save(submission);
+    }
+
+    @Override
+    public void submitAssignment(SubmitAssignmentDTO submitAssignmentDTO) throws NotFoundException {
+        var assignment = assignmentRepository.findById(submitAssignmentDTO.getAssignmentId())
+                .orElseThrow(() -> new NotFoundException("Assignment not found"));
+        var student = userRepository.findById(submitAssignmentDTO.getStudentId())
+                .orElseThrow(() -> new NotFoundException("Student not found"));
+
+        var submission = new Submission(
+                submitAssignmentDTO.getContent(),
+                new Date());
+        submission.setAssignment(assignment);
+        submission.setStudent(student);
+
+        submissionRepository.save(submission);
     }
 }

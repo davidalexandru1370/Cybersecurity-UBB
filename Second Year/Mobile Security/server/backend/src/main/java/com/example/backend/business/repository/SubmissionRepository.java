@@ -1,0 +1,9 @@
+package com.example.backend.business.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.example.backend.core.domain.Submission;
+
+public interface SubmissionRepository extends JpaRepository<Submission, Long> {
+
+}
