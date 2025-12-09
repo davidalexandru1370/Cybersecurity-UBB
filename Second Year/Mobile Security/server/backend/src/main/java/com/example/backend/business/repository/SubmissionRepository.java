@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.backend.core.domain.Submission;
 
 public interface SubmissionRepository extends JpaRepository<Submission, Long> {
-
+    boolean existsByAssignment_IdAndStudent_Id(Long assignmentId, Long studentId);
 }

@@ -9,17 +9,20 @@ public class AssignmentDTO {
     private String description;
     private Long courseId;
     private Optional<Date> dueDate;
+    private Boolean isCompleted;
 
     public AssignmentDTO() {
 
     }
 
-    public AssignmentDTO(Long id, String title, String description, Long courseId, Optional<Date> dueDate) {
+    public AssignmentDTO(Long id, String title, String description, Long courseId, Optional<Date> dueDate,
+            Boolean isCompleted) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.courseId = courseId;
         this.dueDate = dueDate;
+        this.isCompleted = isCompleted;
     }
 
     public Long getId() {
@@ -60,5 +63,13 @@ public class AssignmentDTO {
 
     public void setDueDate(Optional<Date> dueDate) {
         this.dueDate = dueDate;
+    }
+
+    public Boolean getIsCompleted() {
+        return isCompleted;
+    }
+
+    public void setIsCompleted(Boolean isCompleted) {
+        this.isCompleted = isCompleted;
     }
 }

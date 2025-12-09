@@ -25,126 +25,144 @@ import com.example.backend.core.exceptions.NotFoundException;
 
 @Service
 public class AssignmentService implements IAssignmentService {
-    @Autowired
-    private AssignmentRepository assignmentRepository;
+        @Autowired
+        private AssignmentRepository assignmentRepository;
 
-    @Autowired
-    private AssigneesRepository assigneesRepository;
+        @Autowired
+        private AssigneesRepository assigneesRepository;
 
-    @Autowired
-    private SubmissionRepository submissionRepository;
+        @Autowired
+        private SubmissionRepository submissionRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+        @Autowired
+        private UserRepository userRepository;
 
-    @Autowired
-    private CourseRepository courseRepository;
+        @Autowired
+        private CourseRepository courseRepository;
 
-    @Override
-    public Long createAssignment(Long teacherId, CreateAssignmentDTO createAssignmentDTO)
-            throws NotFoundException {
-        var teacher = userRepository.findById(teacherId).orElseThrow(() -> new NotFoundException("Teacher not found"));
-        var course = courseRepository.findById(createAssignmentDTO.getCourseId())
-                .orElseThrow(() -> new NotFoundException("Course not found"));
-        Date dueDate = null;
+        @Override
+        public Long createAssignment(Long teacherId, CreateAssignmentDTO createAssignmentDTO)
+                        throws NotFoundException {
+                var teacher = userRepository.findById(teacherId)
+                                .orElseThrow(() -> new NotFoundException("Teacher not found"));
+                var course = courseRepository.findById(createAssignmentDTO.getCourseId())
+                                .orElseThrow(() -> new NotFoundException("Course not found"));
+                Date dueDate = null;
 
-        if (createAssignmentDTO.getDueDate() != null && createAssignmentDTO.getDueDate().isPresent()) {
-            dueDate = new Date(createAssignmentDTO.getDueDate().get() * 1000);
+                if (createAssignmentDTO.getDueDate() != null && createAssignmentDTO.getDueDate().isPresent()) {
+                        dueDate = new Date(createAssignmentDTO.getDueDate().get() * 1000);
+                }
+
+                var assignment = new Assignment(createAssignmentDTO.getTitle(), createAssignmentDTO.getDescription(),
+                                dueDate, course, teacher);
+
+                assignment = assignmentRepository.save(assignment);
+                for (var studentId : createAssignmentDTO.getStudents()) {
+                        var student = userRepository.findById(studentId)
+                                        .orElseThrow(() -> new NotFoundException("Student not found"));
+                        var assignee = new Assignees(assignment, student);
+                        assigneesRepository.save(assignee);
+                }
+
+                return assignment.getId();
         }
 
-        var assignment = new Assignment(createAssignmentDTO.getTitle(), createAssignmentDTO.getDescription(),
-                dueDate, course, teacher);
+        @Override
+        public void deleteAssignment(Long assignmentId) throws NotFoundException {
+                var assignment = assignmentRepository.findById(assignmentId)
+                                .orElseThrow(() -> new NotFoundException("Assignment not found"));
 
-        assignment = assignmentRepository.save(assignment);
-        for (var studentId : createAssignmentDTO.getStudents()) {
-            var student = userRepository.findById(studentId)
-                    .orElseThrow(() -> new NotFoundException("Student not found"));
-            var assignee = new Assignees(assignment, student);
-            assigneesRepository.save(assignee);
+                assignmentRepository.delete(assignment);
         }
 
-        return assignment.getId();
-    }
+        @Override
+        public void updateAssignment(Long assignmentId, UpdateAssignmentDTO updateAssignmentDTO)
+                        throws NotFoundException {
+                var assignment = assignmentRepository.findById(assignmentId)
+                                .orElseThrow(() -> new NotFoundException("Assignment not found"));
 
-    @Override
-    public void deleteAssignment(Long assignmentId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteAssignment'");
-    }
+                assignment.setTitle(updateAssignmentDTO.getTitle());
+                assignment.setDescription(updateAssignmentDTO.getDescription());
+                if (updateAssignmentDTO.getDueDate().isPresent()) {
+                        assignment.setDueDate(new Date(updateAssignmentDTO.getDueDate().get() * 1000));
+                } else {
+                        assignment.setDueDate(null);
+                }
 
-    @Override
-    public void updateAssignment(Long assignmentId, UpdateAssignmentDTO updateAssignmentDTO) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateAssignment'");
-    }
+                assignmentRepository.save(assignment);
+        }
 
-    @Override
-    public AssignmentDTO getAssignmentById(Long assignmentId) throws NotFoundException {
-        Assignment assignment = assignmentRepository.findById(assignmentId)
-                .orElseThrow(() -> new NotFoundException("Assignment not found"));
+        @Override
+        public AssignmentDTO getAssignmentById(Long assignmentId) throws NotFoundException {
+                Assignment assignment = assignmentRepository.findById(assignmentId)
+                                .orElseThrow(() -> new NotFoundException("Assignment not found"));
 
-        return new AssignmentDTO(assignmentId, assignment.getTitle(), assignment.getDescription(),
-                assignment.getCourse().getId(), Optional.ofNullable(assignment.getDueDate()));
-    }
+                var submission = submissionRepository.findById(assignmentId);
+                return new AssignmentDTO(assignmentId, assignment.getTitle(), assignment.getDescription(),
+                                assignment.getCourse().getId(), Optional.ofNullable(assignment.getDueDate()),
+                                submission.isPresent());
+        }
 
-    @Override
-    public List<AssignmentDTO> getStudentAssignments(Long studentId) {
-        var assignees = assigneesRepository.findByUser_Id(studentId);
+        @Override
+        public List<AssignmentDTO> getStudentAssignments(Long studentId) {
+                var assignees = assigneesRepository.findByUser_Id(studentId);
 
-        var assignments = assignees.stream()
-                .map(a -> {
-                    var assignment = a.getAssignment();
-                    return new AssignmentDTO(
-                            assignment.getId(),
-                            assignment.getTitle(),
-                            assignment.getDescription(),
-                            assignment.getCourse().getId(),
-                            Optional.ofNullable(assignment.getDueDate()));
-                })
-                .toList();
-        return assignments;
-    }
+                var assignments = assignees.stream()
+                                .map(a -> {
+                                        var assignment = a.getAssignment();
+                                        var isCompleted = submissionRepository.existsByAssignment_IdAndStudent_Id(
+                                                        assignment.getId(), studentId);
+                                        return new AssignmentDTO(
+                                                        assignment.getId(),
+                                                        assignment.getTitle(),
+                                                        assignment.getDescription(),
+                                                        assignment.getCourse().getId(),
+                                                        Optional.ofNullable(assignment.getDueDate()), isCompleted);
+                                })
+                                .toList();
+                return assignments;
+        }
 
-    @Override
-    public List<AssignmentDTO> getTeacherAssignments(Long teacherId) throws NotFoundException {
-        var assignments = assignmentRepository.findByTeacher_Id(teacherId).stream()
-                .map(assignment -> {
-                    return new AssignmentDTO(
-                            assignment.getId(),
-                            assignment.getTitle(),
-                            assignment.getDescription(),
-                            assignment.getCourse().getId(),
-                            Optional.ofNullable(assignment.getDueDate()));
-                })
-                .toList();
+        @Override
+        public List<AssignmentDTO> getTeacherAssignments(Long teacherId) throws NotFoundException {
+                var assignments = assignmentRepository.findByTeacher_Id(teacherId).stream()
+                                .map(assignment -> {
+                                        return new AssignmentDTO(
+                                                        assignment.getId(),
+                                                        assignment.getTitle(),
+                                                        assignment.getDescription(),
+                                                        assignment.getCourse().getId(),
+                                                        Optional.ofNullable(assignment.getDueDate()), false);
+                                })
+                                .toList();
 
-        return assignments;
-    }
+                return assignments;
+        }
 
-    @Override
-    public void gradeAssignment(EvaluateSubmissionDTO evaluateSubmissionDTO) throws NotFoundException {
-        var submission = submissionRepository.findById(evaluateSubmissionDTO.getSubmissionId())
-                .orElseThrow(() -> new NotFoundException("Submission not found"));
+        @Override
+        public void gradeAssignment(EvaluateSubmissionDTO evaluateSubmissionDTO) throws NotFoundException {
+                var submission = submissionRepository.findById(evaluateSubmissionDTO.getSubmissionId())
+                                .orElseThrow(() -> new NotFoundException("Submission not found"));
 
-        submission.setGrade(evaluateSubmissionDTO.getGrade());
-        submission.setFeedback(evaluateSubmissionDTO.getFeedback());
+                submission.setGrade(evaluateSubmissionDTO.getGrade());
+                submission.setFeedback(evaluateSubmissionDTO.getFeedback());
 
-        submissionRepository.save(submission);
-    }
+                submissionRepository.save(submission);
+        }
 
-    @Override
-    public void submitAssignment(SubmitAssignmentDTO submitAssignmentDTO) throws NotFoundException {
-        var assignment = assignmentRepository.findById(submitAssignmentDTO.getAssignmentId())
-                .orElseThrow(() -> new NotFoundException("Assignment not found"));
-        var student = userRepository.findById(submitAssignmentDTO.getStudentId())
-                .orElseThrow(() -> new NotFoundException("Student not found"));
+        @Override
+        public void submitAssignment(SubmitAssignmentDTO submitAssignmentDTO) throws NotFoundException {
+                var assignment = assignmentRepository.findById(submitAssignmentDTO.getAssignmentId())
+                                .orElseThrow(() -> new NotFoundException("Assignment not found"));
+                var student = userRepository.findById(submitAssignmentDTO.getStudentId())
+                                .orElseThrow(() -> new NotFoundException("Student not found"));
 
-        var submission = new Submission(
-                submitAssignmentDTO.getContent(),
-                new Date());
-        submission.setAssignment(assignment);
-        submission.setStudent(student);
+                var submission = new Submission(
+                                submitAssignmentDTO.getContent(),
+                                new Date());
+                submission.setAssignment(assignment);
+                submission.setStudent(student);
 
-        submissionRepository.save(submission);
-    }
+                submissionRepository.save(submission);
+        }
 }

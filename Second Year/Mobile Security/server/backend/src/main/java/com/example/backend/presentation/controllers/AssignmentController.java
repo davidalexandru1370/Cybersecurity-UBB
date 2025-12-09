@@ -9,9 +9,11 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import com.example.backend.presentation.entities.response.ErrorResponse;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +22,7 @@ import com.example.backend.business.entities.AssignmentDTO;
 import com.example.backend.business.entities.CreateAssignmentDTO;
 import com.example.backend.business.entities.EvaluateSubmissionDTO;
 import com.example.backend.business.entities.SubmitAssignmentDTO;
+import com.example.backend.business.entities.UpdateAssignmentDTO;
 import com.example.backend.business.service.interfaces.IAssignmentService;
 import com.example.backend.core.exceptions.NotFoundException;
 import com.example.backend.presentation.entities.request.EvaluateSubmissionRequest;
@@ -85,7 +88,43 @@ public class AssignmentController {
         }
     }
 
-    @PostMapping("/grade/submissionId")
+    @PutMapping("/{assignmentId}")
+    public ResponseEntity<BaseResponse<Void>> updateAssignment(
+            @PathVariable Long assignmentId,
+            @RequestBody UpdateAssignmentDTO updateAssignmentDTO) {
+        try {
+            assignmentService.updateAssignment(assignmentId, updateAssignmentDTO);
+            var response = new BaseResponse<Void>(null, HttpStatus.OK.value());
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } catch (NotFoundException e) {
+            var response = new ErrorResponse<Void, UpdateAssignmentDTO>(
+                    updateAssignmentDTO, e.getMessage(), HttpStatus.NOT_FOUND.value());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        } catch (Exception e) {
+            var response = new ErrorResponse<Void, UpdateAssignmentDTO>(
+                    updateAssignmentDTO, "Internal server error", HttpStatus.INTERNAL_SERVER_ERROR.value());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR.value()).body(response);
+        }
+    }
+
+    @DeleteMapping("/{assignmentId}")
+    public ResponseEntity<BaseResponse<Void>> deleteAssignment(@PathVariable Long assignmentId) {
+        try {
+            assignmentService.deleteAssignment(assignmentId);
+            var response = new BaseResponse<Void>(null, HttpStatus.OK.value());
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } catch (NotFoundException e) {
+            var response = new ErrorResponse<Void, Long>(
+                    assignmentId, e.getMessage(), HttpStatus.NOT_FOUND.value());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        } catch (Exception e) {
+            var response = new ErrorResponse<Void, Long>(
+                    assignmentId, "Internal server error", HttpStatus.INTERNAL_SERVER_ERROR.value());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR.value()).body(response);
+        }
+    }
+
+    @PostMapping("/grade/{submissionId}")
     public ResponseEntity<BaseResponse<Void>> gradeAssignment(
             @AuthenticationPrincipal UserDetails user,
             @PathVariable Long submissionId,
