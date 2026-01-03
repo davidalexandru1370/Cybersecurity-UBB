@@ -1,0 +1,8 @@
+field next: Ref
+field elem: Int
+
+predicate lseg(this: Ref, last: Ref) {
+    this != last ==> acc(this.next) && lseg(this.next, last)
+}
+
+method addAtEnd(this: Ref, n: Ref, nn: Ref)

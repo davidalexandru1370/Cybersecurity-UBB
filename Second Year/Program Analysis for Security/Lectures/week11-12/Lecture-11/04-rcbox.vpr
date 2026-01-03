@@ -1,0 +1,37 @@
+// class Text Segment
+field data: Ref
+field start: Int
+field len: Int
+
+// class Text
+field shared: Bool
+field value: Seq[Int]   // could for instance be a large array that is expensive to copy
+
+predicate segment(this: Ref) // naive version
+{
+    acc(this.data) && acc(this.start) && acc(this.len) &&
+    acc(this.data.shared, 1/2) &&
+    acc(this.data.value, 1/2) &&
+    (!this.data.shared ==> acc(this.data.value, 1/2) && acc(this.data.shared, 1/2)) &&
+    0 <= this.start &&
+    0 <= this.len &&
+    this.start + this.len <= |this.data.value|
+}
+
+
+// create a TextSegment and the underlying Text
+method create(v: Seq[Int]) returns (s: Ref) 
+    ensures segment(s)
+
+
+// introduce sharing of Text
+method prefix(this: Ref, n: Int) returns (res: Ref)
+    requires segment(this)
+    requires 0 <= n
+    ensures  segment(this) && segment(res)
+
+// copy on write, if shared
+method update(this: Ref, v: Seq[Int]) 
+    requires segment(this)
+    ensures  segment(this)
+

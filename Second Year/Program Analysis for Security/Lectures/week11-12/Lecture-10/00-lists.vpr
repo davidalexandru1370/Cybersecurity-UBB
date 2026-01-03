@@ -1,0 +1,25 @@
+field elem: Int
+field next: Ref
+
+method head(this: Ref) returns (res: Int)
+  requires acc(this.elem)
+  ensures  acc(this.elem)
+  ensures  res == this.elem
+{
+  res := this.elem
+}
+
+method append(this: Ref, e: Int)
+  requires false // permission to all nodes
+  ensures false // list was extended
+{
+  if(this.next==null){
+    var n:Ref
+    n:=new(*)
+    n.next:=null
+    this.elem:=e
+    this.next:=n
+  } else {
+    append(this.next,e)
+  }
+}

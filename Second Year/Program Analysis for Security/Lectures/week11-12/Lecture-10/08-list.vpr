@@ -1,0 +1,34 @@
+field next: Ref
+field elem: Int
+
+predicate list(this: Ref) {
+    acc(this.elem) && acc(this.next) && 
+    (this.next != null ==> list(this.next))
+}
+
+method head(this: Ref) returns (res: Int)
+  requires list(this)
+  ensures  list(this)
+{
+    unfold list(this)
+    res := this.elem
+    fold list(this)
+}
+
+method append(this: Ref, e: Int) 
+    requires list(this)
+    ensures  list(this)
+{
+    unfold list(this)
+    if(this.next == null) {
+        var n: Ref
+        n := new(*)
+        n.next := null
+        this.elem := e
+        this.next := n
+        fold list(n)
+    } else {
+        append(this.next, e)
+    }
+    fold list(this)
+}

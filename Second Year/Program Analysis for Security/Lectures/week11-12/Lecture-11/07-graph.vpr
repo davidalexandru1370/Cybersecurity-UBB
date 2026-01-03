@@ -1,0 +1,36 @@
+// this example does not only show arbitrary sharing but also abitrary (even non-deterministic traversals)
+
+// Viper does not have a good way to iterate over sets
+function any(s: Set[Ref]): Ref
+    requires 0 < |s|
+    ensures result in s
+
+
+// class Node
+field next: Set[Ref]
+field flag: Bool
+
+define graph(nodes) (
+    forall n: Ref :: n in nodes ==> acc(n.next)  && acc(n.flag) && (n.next subset nodes)
+)
+
+method mark(nodes: Set[Ref], root: Ref)
+  requires graph(nodes)
+  requires root in nodes
+  ensures  graph(nodes)
+{
+    root.flag := true
+    var c: Set[Ref] := root.next
+    while (0 < |c|)
+        invariant graph(nodes)
+        invariant c subset nodes
+    {
+        var n: Ref
+        n := any(c)
+        c := c setminus Set(n)
+        if(!n.flag) {
+            mark(nodes, n)
+        }
+    }
+}
+

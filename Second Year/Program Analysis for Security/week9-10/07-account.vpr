@@ -1,0 +1,45 @@
+field bal: Int
+
+
+method create() returns (a: Ref)
+ensures acc(a.bal) && a.bal == 0
+{
+  a := new()
+  inhale acc(a.bal)
+  a.bal := 0
+}
+
+method deposit(a: Ref, amt: Int)
+  requires acc(a.bal) && a.bal >= 0 && amt >= 0
+  ensures acc(a.bal) && a.bal >= 0
+  ensures a.bal == old(a.bal) + amt
+{
+  a.bal := a.bal + amt
+}
+
+method transfer(src: Ref, dst: Ref, amt: Int)
+  requires acc(src.bal) && acc(dst.bal) && src.bal >= 0 && dst.bal >= 0 && amt >= 0 && src.bal >= amt
+  ensures acc(src.bal) && acc(dst.bal) && src.bal >= 0 && dst.bal >= 0
+  ensures src.bal == old(src.bal) - amt
+  ensures dst.bal == old(dst.bal) + amt
+{
+  src.bal := src.bal - amt
+  dst.bal := dst.bal + amt
+}
+
+method client()
+{
+  var x: Ref := create()
+  var y: Ref := create()
+  var z: Ref := create()
+
+  deposit(x, 100)
+  deposit(y, 200)
+  deposit(z, 300)
+
+  transfer(x, y, 100)
+
+  assert x.bal == 0
+  assert y.bal == 300
+  assert z.bal == 300
+}

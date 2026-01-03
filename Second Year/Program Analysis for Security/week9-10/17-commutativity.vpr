@@ -1,0 +1,13 @@
+// my very own multiplication function 
+function X(n: Int, m: Int): Int 
+  requires n >= 0 && m >= 0
+{
+  m == 0 ? 0 : n + X(n, m-1)
+}
+
+method lemma_X_commutative(n: Int, m: Int)
+  requires n >= 0 && m >= 0
+  ensures X(n, m) == X(m, n)
+{
+  // TODO: write a proof
+}

@@ -1,0 +1,27 @@
+function fib(n: Int): Int {
+    n == 0 ? 
+        0 : 
+        (n == 1) ? 
+            1 : 
+            fib(n - 1) + fib(n - 2)
+}
+
+method iter_fib(n: Int) returns (res: Int)
+    requires 0 <= n
+    ensures res == fib(n)
+{
+    res := 0
+    var i: Int := 0
+    var next: Int := 1
+
+    while (i < n)
+        invariant 0 <= i && i <= n
+        invariant res == fib(i)
+        invariant next == fib(i + 1)
+    {
+        var t: Int := res
+        res := next
+        next := t + next
+        i := i + 1
+    }
+}

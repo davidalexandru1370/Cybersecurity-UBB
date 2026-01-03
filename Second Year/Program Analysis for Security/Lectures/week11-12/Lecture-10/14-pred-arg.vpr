@@ -1,0 +1,34 @@
+field next: Ref
+field elem: Int
+
+predicate list(this: Ref, content: Seq[Int]) {
+    acc(this.elem) && acc(this.next) && 
+    (this.next == null ==> content == Seq[Int]()) &&
+    (this.next != null ==> 0 < |content| && content[0] == this.elem && list(this.next, content[1..]))
+}
+
+method create() returns (res: Ref)
+    ensures  list(res, Seq[Int]())
+{
+    res := new(*)
+    res.next := null
+    fold list(res, Seq[Int]())
+}
+
+method append(this: Ref, e: Int, c: Seq[Int]) 
+    requires list(this, c)
+    ensures  list(this, c ++ Seq(e))
+{
+    unfold list(this, c)
+    if(this.next == null) {
+        var n: Ref
+        n := new(*)
+        n.next := null
+        this.elem := e
+        this.next := n
+        fold list(n, Seq[Int]())
+    } else {
+        append(this.next, e, c[1..])
+    }
+    fold list(this, c ++ Seq(e))
+}

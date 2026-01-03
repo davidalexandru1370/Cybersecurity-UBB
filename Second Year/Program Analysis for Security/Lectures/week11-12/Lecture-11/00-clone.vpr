@@ -1,0 +1,75 @@
+field next: Ref
+field elem: Int
+
+predicate list(this: Ref) {
+    acc(this.elem) && acc(this.next) && 
+    (this.next != null ==> list(this.next))
+}
+
+function length(this: Ref): Int
+    requires list(this)
+{
+    unfolding list(this) in (this.next == null ? 0 : length(this.next) + 1)
+}
+
+function content(this: Ref): Seq[Int]
+    requires list(this)
+{
+    unfolding list(this) in (this.next == null ? Seq[Int]() : Seq(this.elem) ++ content(this.next))
+}
+
+method cloneNode(this: Ref) returns (res: Ref)
+    requires acc(this.elem) && acc(this.next) 
+    ensures  acc(this.elem) && acc(this.next) 
+    ensures  acc(res.elem) && acc(res.next) 
+    ensures  this.elem == old(this.elem) && this.next == old(this.next)
+{
+    res := new(*)
+    res.elem := this.elem
+    res.next := this.next
+}
+
+method frameNode(this: Ref)
+    requires acc(this.elem) && acc(this.next) 
+{
+    var tmp: Int
+    var n: Ref
+    tmp := this.elem
+    n := cloneNode(this)
+    assert tmp == this.elem
+}
+
+method cloneList(this: Ref) returns (res: Ref)
+    requires list(this)
+    ensures  list(this) && list(res)
+    ensures  content(this) == old(content(this))
+    ensures  length(this) == old(length(this))
+{
+    res := new(*)
+
+    unfold list(this)
+    if(this.next == null) {
+        res.next := null
+    } else {
+        var tmp: Ref
+        tmp := cloneList(this.next)
+        res.elem := this.elem
+        res.next := tmp
+    }
+    fold list(this)
+    fold list(res)
+}
+
+method frameList(this: Ref)
+    requires list(this)
+{
+    var tmp1: Seq[Int]
+    var tmp2: Int
+    var l: Ref
+    tmp1 := content(this)
+    tmp2 := length(this)
+    l := cloneList(this)
+    assert tmp1 == content(this)
+    assert tmp2 == length(this)
+}
+

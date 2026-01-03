@@ -1,0 +1,30 @@
+field next: Ref
+field elem: Int
+field len: Int // <-- explicit field storing the length
+
+predicate list(this: Ref) {
+    acc(this.elem) && acc(this.next) && acc(this.len) &&
+    (this.next != null ==> list(this.next))
+}
+
+
+method append(this: Ref, e: Int) 
+    requires list(this)
+    ensures  list(this)
+{
+    unfold list(this)
+    if(this.next == null) {
+        var n: Ref
+        n := new(*)
+        n.next := null
+        n.len := 0
+        this.elem := e
+        this.next := n
+        fold list(n)
+    } else {
+        append(this.next, e)
+    }
+    unfold list(this.next)
+    fold list(this.next)
+    fold list(this)
+}

@@ -1,0 +1,18 @@
+method int_sqrt_fast() {
+  var n: Int
+  assume n >= 0
+  var res: Int
+  res := 0
+  var x: Int := 1
+
+  while (x < n)
+    invariant res >= 0
+    invariant res * res <= n
+    invariant x == (res + 1) * (res + 1)
+  {
+    x := x + 2 * res + 3
+    res := res + 1
+  }
+
+  assert res * res <= n && n <= (res + 1) * (res + 1)
+}

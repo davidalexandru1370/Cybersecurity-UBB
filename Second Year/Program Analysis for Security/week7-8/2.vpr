@@ -1,0 +1,12 @@
+method M(n: Int) returns (r: Int)
+requires n >= 0
+ensures 100 < n ==> r == n - 10
+ensures n <= 100 ==> r == 91
+{
+    if (n > 100) {
+        r := n - 10
+    } else {
+        r := M(n + 11)
+        r := M(r)
+    }
+}

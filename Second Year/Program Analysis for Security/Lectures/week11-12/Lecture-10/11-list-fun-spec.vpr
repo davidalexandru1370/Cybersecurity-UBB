@@ -1,0 +1,35 @@
+field next: Ref
+field elem: Int
+field len: Int
+
+predicate list(this: Ref) {
+    acc(this.elem) && acc(this.next) && acc(this.len) &&
+    (this.next == null ==> this.len == 0) &&
+    (this.next != null ==> list(this.next) && 
+    unfolding list(this.next) in this.len == this.next.len + 1)
+}
+
+
+method append(this: Ref, e: Int) 
+    requires list(this)
+    ensures  list(this)
+    // added functional spec
+    ensures  (unfolding list(this) in this.len) == old(unfolding list(this) in this.len + 1)
+{
+    unfold list(this)
+    if(this.next == null) {
+        var n: Ref
+        n := new(*)
+        n.next := null
+        n.len := 0
+        this.elem := e
+        this.next := n
+        fold list(n)
+    } else {
+        append(this.next, e)
+    }
+    unfold list(this.next)
+    this.len := this.next.len + 1
+    fold list(this.next)
+    fold list(this)
+}

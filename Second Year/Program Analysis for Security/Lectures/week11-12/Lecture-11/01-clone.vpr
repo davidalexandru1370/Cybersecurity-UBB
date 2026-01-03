@@ -1,0 +1,43 @@
+field next: Ref
+field elem: Int
+
+predicate list(this: Ref) {
+    acc(this.elem) && acc(this.next) && 
+    (this.next != null ==> list(this.next))
+}
+
+function length(this: Ref): Int
+    requires acc(list(this))
+{
+    unfolding acc(list(this))
+    in (this.next == null ? 0 : length(this.next) + 1)
+}
+
+function content(this: Ref): Seq[Int]
+    requires acc(list(this))
+{
+    unfolding acc(list(this)) 
+    in (this.next == null ? Seq[Int]() : Seq(this.elem) ++ content(this.next))
+}
+
+
+method cloneList(this: Ref) returns (res: Ref)
+    requires acc(list(this), 1/2)
+    ensures  acc(list(this), 1/2) && list(res)
+    //ensures  content(this) == old(content(this))
+    //ensures  length(this) == old(length(this))
+
+method frameList(this: Ref)
+    requires acc(list(this))
+    //requires acc(list(this), 1/2)
+{
+    var tmp1: Seq[Int]
+    var tmp2: Int
+    var l: Ref
+    tmp1 := content(this)
+    tmp2 := length(this)
+    l := cloneList(this)
+    assert tmp1 == content(this)
+    assert tmp2 == length(this)
+}
+

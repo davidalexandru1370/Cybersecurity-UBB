@@ -1,0 +1,24 @@
+method sum(n: Int) returns (s: Int)
+    requires n >= 0
+    ensures s == n * (n + 1) / 2
+{
+    if (n == 0) {
+        s := 0
+    } else {
+        var temp: Int
+        temp := sum(n - 1)
+        s := temp + n
+    }
+}
+
+method main() {
+    var r: Int
+    var r1: Int
+    r := sum(10)
+    r1 := sum(100)
+    assert r1 == 5050
+    assert r == 55
+
+    
+
+}

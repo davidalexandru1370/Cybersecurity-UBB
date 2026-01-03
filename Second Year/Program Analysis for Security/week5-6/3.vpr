@@ -1,0 +1,15 @@
+method int_sqrt() {
+  var n: Int
+  assume n >= 0
+  var res: Int
+  res := 0
+
+  while ((res + 1) * (res + 1) < n)
+    invariant res >= 0
+    invariant res * res <= n
+  {
+    res := res + 1
+  }
+
+  assert res * res <= n && n <= (res + 1) * (res + 1)
+}

@@ -1,0 +1,47 @@
+field next: Ref
+field elem: Int
+
+
+predicate list(this: Ref) {
+  // we own the two fields of this node …
+  acc(this.elem) &&                     // value stored in this node
+  acc(this.next) &&                     // pointer to next node
+
+  // and if there is a successor, then:
+  (this.next != null ==>                //   – the tail is itself a sorted list
+      list(this.next) &&
+
+      //   – the current element is <= the successor’s element
+      //     (we temporarily unfold the tail so we may read its elem field)
+      unfolding list(this.next) in
+          (this.next.next != null ==>    // only compare when there is a real data node after 'this'
+              this.elem <= this.next.elem))
+}
+
+method ok()
+{
+   var n1: Ref;
+   var n2: Ref;
+   var n3: Ref;
+
+  n1 := new();  n2 := new();  n3 := new();
+
+  // get field permissions
+  inhale acc(n1.elem) && acc(n1.next);
+  inhale acc(n2.elem) && acc(n2.next);
+  inhale acc(n3.elem) && acc(n3.next);
+
+  n1.elem := 1;  
+  n1.next := n2;
+  n2.elem := 3;  
+  n2.next := n3;
+  n3.elem := 5;  
+  n3.next := null;
+
+  // fold bottom-up
+  fold list(n3);          // base-case: tail node
+  fold list(n2);          // needs list(n3) and 3 <= 5
+  fold list(n1);          // needs list(n2) and 1 <= 3
+
+  assert list(n1);   
+}

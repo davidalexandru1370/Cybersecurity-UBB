@@ -1,0 +1,48 @@
+domain Point { 
+
+   function cons(x: Int, y: Int): Point
+
+   function first(p: Point): Int 
+   function second(p: Point): Int 
+
+   axiom destruct_over_construct {
+      forall x: Int, y: Int :: first(cons(x,y)) == x && second(cons(x,y)) == y
+   }
+
+   function add(p: Point, q: Point): Point 
+
+   //1. verification succeeds
+
+   axiom add_points { 
+      forall p: Point, q: Point :: { add(add(p,q),add(p,q)) } // TODO: try out other triggering patterns here 
+         first(add(p,q)) == first(p) + first(q) 
+         && second(add(p,q)) == second(p) + second(q)
+   }
+
+   //2. failure - pattern too narrow (need both terms together)
+//    axiom add_components_too_restrictive {
+//     forall p: Point, q: Point :: { first(add(p,q)), second(add(p,q)) }     // one multipattern
+//       first(add(p,q)) == first(p) + first(q)
+//    && second(add(p,q)) == second(p) + second(q)
+//   }
+
+   //3. non-termination - pattern far too liberal
+   // Union of the two terms covers both bound vars (p & q)
+   // but instantion creates ever more matches -> avalanche
+
+//    axiom add_components_loop {
+//     forall p: Point, q: Point :: { first(p), first(q) }                    // very broad multipattern
+//       first(add(p,q)) == first(p) + first(q)
+//       && second(add(p,q)) == second(p) + second(q)
+//   }
+
+}
+
+
+method test()
+{
+   var x: Point := add( cons(17, 42), cons(3,8) )
+
+   assert first(x) == 20
+   assert second(x) == 50
+}

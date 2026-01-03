@@ -1,0 +1,48 @@
+
+// Flyweight
+field val: Int 
+
+// Factory
+field cache: Ref
+field isLock: Bool
+
+define Inv(this) (
+  acc(this.cache, write) && 
+  acc(this.isLock, write) &&
+  (this.cache != null ==> acc(this.cache.val, write))
+)
+
+define share(this) {
+  exhale Inv(this)
+  inhale acc(this.isLock, wildcard)
+}
+
+define acquire(this) {
+  assert acc(this.isLock, wildcard)
+  inhale Inv(this)
+}
+
+define release(this) {
+  exhale Inv(this)
+}
+
+method get(this: Ref) returns (f: Ref)
+  requires Inv(this)
+  ensures acc(f.val, wildcard)
+{
+  acquire(this)
+  
+  if(this.cache == null) {
+    f := new(val)
+    f.val := 0  // Initialize with default value
+    this.cache := f
+  }
+  
+  f := this.cache
+  
+  // We need to ensure the caller gets read access to f.val
+  exhale acc(f.val, write)
+  inhale acc(f.val, wildcard)
+  
+  release(this)
+}

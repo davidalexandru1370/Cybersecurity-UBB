@@ -1,0 +1,36 @@
+field next: Ref
+field elem: Int
+
+predicate lseg(this: Ref, last: Ref) {
+    this != last ==> acc(this.next) && lseg(this.next, last)
+}
+
+method addAtEnd(this: Ref, n: Ref, nn: Ref)
+    requires lseg(this, n) && acc(n.next) && n.next == nn
+    ensures  lseg(this, nn)
+{
+    if(this == n) {
+        fold lseg(nn, nn)
+        fold lseg(this, nn)
+    } else {
+        unfold lseg(this, n)
+        addAtEnd(this.next, n, nn)
+        fold lseg(this, nn)
+    }
+}
+
+
+
+method length(this: Ref) returns (res: Int)
+    //requires list(this)
+    // ensures list(this) 
+{
+    res := 0
+    var curr: Ref := this
+    while(curr.next != null)
+      //invariant acc(curr.next) && (curr.next != null ==> list(curr.next))
+    {
+        res := res + 1
+        curr := curr.next
+    }
+}

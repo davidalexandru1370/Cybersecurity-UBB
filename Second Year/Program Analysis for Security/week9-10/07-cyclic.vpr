@@ -1,0 +1,29 @@
+field next: Ref
+
+predicate lseg(this: Ref, last: Ref) {
+    this != last ==> acc(this.next) && lseg(this.next, last)
+}
+
+predicate list(this: Ref) {
+    acc(this.next) && lseg(this.next, this)
+}
+
+method create() returns (res: Ref)
+    ensures list(res)
+{
+    res := new()
+    inhale acc(res.next)
+    res.next := res
+    inhale list(res)
+}
+
+method insert(this: Ref, newElem: Ref)
+    requires list(this)
+    ensures list(this)
+{
+    inhale acc(this.next)
+    inhale acc(newElem.next)
+    
+    newElem.next := this.next
+    this.next := newElem
+}

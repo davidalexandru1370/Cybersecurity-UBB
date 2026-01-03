@@ -1,0 +1,11 @@
+field f: Int
+
+method alias(a: Ref, b: Ref)
+  requires (a == b ==> acc(a.f)) && (a != b ==> acc(a.f) && acc(b.f))
+{
+  a.f := 5;
+  b.f := 7;
+  // assert a.f == 5;
+  assert a != b ==> (a.f == 5 && b.f == 7);
+  assert a == b ==> (a.f == 7);
+}

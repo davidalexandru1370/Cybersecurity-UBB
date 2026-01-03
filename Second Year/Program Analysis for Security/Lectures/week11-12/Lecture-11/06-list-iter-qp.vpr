@@ -1,0 +1,114 @@
+// class Node
+field next: Ref
+field elem: Int
+
+
+// class List
+field head: Ref
+field pos: Ref
+
+// ghost field for explicit footprint
+field nodes: Set[Ref]
+
+
+define validList(this) (
+    acc(this.head) && acc(this.pos) && acc(this.nodes) && 
+    (forall n: Ref :: n in this.nodes ==> acc(n.elem) 
+       && acc(n.next) && (n.next != null ==> n.next in this.nodes)) &&
+    (this.head != null ==> this.head in this.nodes) &&
+    (this.pos != null ==> this.pos in this.nodes) &&
+    (this.head == null ==> this.pos == null)
+)
+
+
+predicate list(this: Ref) {
+    validList(this)
+}
+
+
+
+method prepend(this: Ref, v: Int)
+    requires list(this)
+    ensures  list(this)
+{
+    unfold list(this)
+    var n: Ref
+    n := new(next, elem)
+    n.elem := v
+    n.next := this.head
+    this.head := n
+    this.nodes := this.nodes union Set(n)
+    fold list(this)
+}
+
+function hasNext(this: Ref): Bool
+    requires list(this)
+{
+    unfolding list(this) in this.pos != null
+}
+
+method getNext(this: Ref) returns (res: Int)
+    requires list(this) && hasNext(this)
+    ensures list(this)
+{
+    unfold list(this)
+    res := this.pos.elem
+    this.pos := this.pos.next
+    fold list(this)
+}
+
+function isEmpty(this: Ref): Bool
+  requires list(this)
+{
+    unfolding list(this) in this.head == null
+}
+
+// to demonstrate that we don't need lsegs
+method insert(this: Ref, v: Int, index: Int)
+    requires list(this) && 0 <= index
+    ensures  list(this)
+{
+    if(index == 0 || isEmpty(this)) {
+        prepend(this, v)
+    } else {
+        unfold list(this)
+        var curr: Ref
+        curr := this.head
+        var i: Int := index
+        while(1 < i && curr.next != null)
+            invariant validList(this)
+            invariant curr in this.nodes
+        {
+            curr := curr.next
+            i := i - 1
+        }
+
+        var nn: Ref
+        nn := new(next, elem)
+        nn.elem := v
+        nn.next := curr.next
+        curr.next := nn
+        this.nodes := this.nodes union Set(nn)
+
+        fold list(this)
+    }
+}
+
+method reset(this: Ref)
+    requires list(this)
+    ensures  list(this)
+{
+    unfold list(this)
+    this.pos := this.head
+    fold list(this)
+}
+
+method create() returns (res: Ref)
+    ensures list(res)
+{
+    res := new(head, pos, nodes)
+    res.head := null
+    res.pos := null
+    res.nodes := Set[Ref]()
+    fold list(res)
+}

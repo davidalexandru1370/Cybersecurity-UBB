@@ -1,0 +1,42 @@
+field next: Ref
+field elem: Int
+
+
+
+predicate P(this: Ref) {
+    acc(this.elem, 1/2)
+}
+
+method test(this: Ref)
+{
+    inhale acc(this.elem)
+    fold P(this)
+    fold P(this)
+    inhale acc(this.elem, 2/3)
+    fold P(this)
+    exhale P(this) && P(this) && P(this)
+    //assert false
+}
+
+method inhale_exhale_addition(this: Ref)
+{
+    inhale acc(this.elem)
+    assert acc(this.elem, write)
+    exhale acc(this.elem, 2/3)
+    //assert acc(this.elem, write)
+    assert acc(this.elem, 1/8)
+    assert acc(this.elem, 1/3)
+    inhale acc(this.elem, 1/9)
+    assert acc(this.elem, 1/3)
+    assert acc(this.elem, 4/9)
+}
+
+method fold_unfold_multiplies(this: Ref)
+{
+    inhale acc(this.elem)
+    fold P(this)
+    assert acc(this.elem, 1/2)
+    unfold acc(P(this), 1/2)
+    assert acc(P(this), 1/4)
+    assert acc(this.elem, 3/4)
+}

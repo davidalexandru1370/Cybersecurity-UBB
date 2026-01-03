@@ -1,0 +1,49 @@
+/* Encoding of integer arrays */
+field val: Int // for integer arrays
+domain Array {
+    function loc(a: Array, i: Int): Ref
+    function len(a: Array): Int
+    function first(r: Ref): Array
+    function second(r: Ref): Int
+
+    axiom injectivity {
+        forall a: Array, i: Int :: {loc(a, i)}
+        first(loc(a, i)) == a && second(loc(a, i)) == i
+    }
+
+    axiom length_nonneg {
+        forall a: Array :: len(a) >= 0
+    }
+}
+
+define lookup(a, i) 
+    loc(a, i).val
+
+define update(a, i, e) {
+    loc(a, i).val := e
+}
+
+define array(a)
+    (forall i: Int :: {loc(a, i)}  0 <= i && i < len(a) ==> acc(loc(a, i).val)) 
+
+define alloc(a, l) {
+    inhale array(a) && len(a) == l
+}
+
+method incrementAll(a: Array)
+    requires array(a)
+    ensures  array(a)
+    ensures  forall i: Int :: 0 <= i && i < len(a) ==> lookup(a, i) == old(lookup(a, i)) + 1
+{
+    var j: Int := 0
+
+    while(j < len(a))
+        invariant array(a)
+        invariant 0 <= j && j <= len(a)
+        // invariant  forall i: Int :: 0 <= i && i < j ==> lookup(a, i) == old(lookup(a, i)) + 1  // not sufficient
+         invariant  forall i: Int :: 0 <= i && i < len(a) ==> lookup(a, i) == (i < j ? old(lookup(a, i)) + 1 : old(lookup(a, i)))
+    {
+        update(a, j, lookup(a, j) + 1)
+        j := j + 1
+    }
+}

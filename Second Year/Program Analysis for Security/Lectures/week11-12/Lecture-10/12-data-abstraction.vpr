@@ -1,0 +1,21 @@
+field next: Ref
+field elem: Int
+field content: Seq[Int] // data abstraction
+
+predicate list(this: Ref) {
+    acc(this.elem) && acc(this.next) && acc(this.content) &&
+    (this.next == null ==> this.content == Seq[Int]()) &&
+    (this.next != null ==> list(this.next) &&
+    unfolding list(this.next) in this.content == Seq(this.elem) ++ this.next.content)
+}
+
+// TODO: develop this
+method create() returns (res: Ref)
+    ensures  list(res)
+    ensures  unfolding list(res) in res.content == Seq[Int]()
+{
+    res := new(*)
+    res.next := null
+    res.content := Seq[Int]()
+    fold list(res)
+}
