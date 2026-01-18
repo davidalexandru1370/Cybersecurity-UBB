@@ -1,0 +1,8 @@
+Vulnerabilitati legate de coruperea memoriei - https://youtu.be/0_9C3jEm1QA
+Vulnerabilitati specifice limbajului C - https://youtu.be/EbJiY2iwKFM
+Vulnerabilitati in utilizarea si manipularea sirurilor de caractere - https://youtu.be/lUaf9BzT6T0
+Vulnerabilitati specifice sistemelor de operare 01 - https://youtu.be/m2wnjNdpP9s
+Vulnerabilitati specifice sistemelor de operare 02 - https://youtu.be/AU0szOW67ok
+Vulnerabilitati de sincronizare - https://youtu.be/mxXqfOdgWyg
+Vulnerabilitati web 01 - https://youtu.be/8BgeWF-YAMM
+Vulnerabilitati web 02 - https://youtu.be/EiY6DmibA3o

