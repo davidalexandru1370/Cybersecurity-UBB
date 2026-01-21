@@ -9,10 +9,12 @@ import com.example.backend.business.entities.CreateUserDTO;
 import com.example.backend.business.repository.UserRepository;
 import com.example.backend.business.service.interfaces.IUserService;
 import com.example.backend.core.domain.User;
+import com.example.backend.core.enums.TokenType;
 import com.example.backend.core.exceptions.ExistingAccountException;
 import com.example.backend.core.exceptions.ExpiredTokenException;
 import com.example.backend.core.exceptions.NotFoundException;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
@@ -33,6 +35,9 @@ public class UserService implements IUserService {
 
     @Value("${jwt.secret}")
     private String jwtSecret;
+
+    @Value("${jwt.refresh-secret}")
+    private String jwtRefreshSecret;
 
     @Value("${jwt.expiration-ms:3600000}")
     private long jwtExpirationMs;
@@ -70,7 +75,7 @@ public class UserService implements IUserService {
         long now = System.currentTimeMillis();
         Date issuedAt = new Date(now);
         Date expiry = new Date(now + jwtExpirationMs);
-        var secretKey = getSecretKey(this.jwtSecret);
+        var secretKey = getAccessTokenSecretKey(this.jwtSecret);
 
         String token = Jwts.builder()
                 .subject(email)
@@ -84,9 +89,30 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public Boolean validateAuthToken(String token) throws ExpiredTokenException {
+    public String generateRefreshToken(String email, Long id) {
+        long now = System.currentTimeMillis();
+        Date issuedAt = new Date(now);
+        Date expiry = new Date(now + jwtExpirationMs * 24); // Refresh token valid for 24 times longer
+        var secretKey = getRefreshTokenSecretKey(this.jwtSecret);
+
+        String token = Jwts.builder()
+                .subject(email)
+                .claim("id", id)
+                .issuedAt(issuedAt)
+                .expiration(expiry)
+                .signWith(secretKey)
+                .compact();
+
+        return token;
+    }
+
+    @Override
+    public Boolean validateToken(String token, TokenType tokenType) throws ExpiredTokenException {
         try {
-            SecretKey key = getSecretKey(this.jwtSecret);
+            SecretKey key = getAccessTokenSecretKey(this.jwtSecret);
+            if (tokenType == TokenType.REFRESH) {
+                key = getRefreshTokenSecretKey(this.jwtRefreshSecret);
+            }
             Jwts.parser().decryptWith(key).build().parseSignedClaims(token);
             return true;
         } catch (SecurityException | MalformedJwtException e) {
@@ -100,14 +126,29 @@ public class UserService implements IUserService {
         }
     }
 
-    private SecretKey getSecretKey(String secret) {
+    @Override
+    public Long getIdFromToken(String token, TokenType tokenType) {
+        var secretKey = getAccessTokenSecretKey(this.jwtSecret);
+        if (tokenType == TokenType.REFRESH) {
+            secretKey = getRefreshTokenSecretKey(this.jwtRefreshSecret);
+        }
+        Claims claims = Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload();
+        return claims.get("id", Long.class);
+    }
+
+    private SecretKey getAccessTokenSecretKey(String secret) {
+        byte[] keyBytes = secret.getBytes();
+        return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    private SecretKey getRefreshTokenSecretKey(String secret) {
         byte[] keyBytes = secret.getBytes();
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
     @Override
-    public User getUserById(String id) throws NotFoundException {
-        var user = userRepository.findById(Long.parseLong(id));
+    public User getUserById(Long id) throws NotFoundException {
+        var user = userRepository.findById(id);
         if (user.isPresent()) {
             return user.get();
         }

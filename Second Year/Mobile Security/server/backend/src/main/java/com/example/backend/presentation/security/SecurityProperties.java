@@ -28,6 +28,7 @@ public class SecurityProperties {
                                                                 "/user/login",
                                                                 "/user/register",
                                                                 "/api/user/login",
+                                                                "/api/user/refresh-token",
                                                                 "/api/status",
                                                                 "/api/user/register",
                                                                 "/swagger-ui.html",

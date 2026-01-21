@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.backend.business.entities.CreateUserDTO;
 import com.example.backend.business.service.interfaces.IUserService;
 import com.example.backend.core.enums.Role;
+import com.example.backend.core.enums.TokenType;
 import com.example.backend.core.exceptions.ExistingAccountException;
+import com.example.backend.core.exceptions.ExpiredTokenException;
 import com.example.backend.core.exceptions.NotFoundException;
 import com.example.backend.presentation.entities.request.CreateUserRequest;
 import com.example.backend.presentation.entities.request.LoginUserRequest;
@@ -41,12 +43,13 @@ public class UserController {
         if (isValid) {
             var user = userService.getUserByEmail(request.getUsername());
             var token = userService.generateAuthToken(request.getUsername(), user.getId());
-            var authResponse = new AuthResponse(true, token);
+            var refreshToken = userService.generateRefreshToken(request.getUsername(), user.getId());
+            var authResponse = new AuthResponse(true, token, refreshToken);
             return ResponseEntity.status(HttpStatus.OK).body(new BaseResponse<AuthResponse>(authResponse,
                     HttpStatus.OK.value()));
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new ErrorResponse<AuthResponse, LoginUserRequest>(request, "Invalid credentials",
+                    .body(new ErrorResponse<AuthResponse, LoginUserRequest>(request, "Invalid username or password",
                             HttpStatus.UNAUTHORIZED.value()));
         }
     }
@@ -58,7 +61,8 @@ public class UserController {
             var createUserDto = new CreateUserDTO(request.getUsername(), request.getPassword(), Role.STUDENT);
             var user = userService.createUser(createUserDto);
             var token = userService.generateAuthToken(request.getUsername(), user.getId());
-            var authResponse = new AuthResponse(true, token);
+            var refreshToken = userService.generateRefreshToken(request.getUsername(), user.getId());
+            var authResponse = new AuthResponse(true, token, refreshToken);
             return ResponseEntity.status(HttpStatus.OK).body(new BaseResponse<>(authResponse, 201));
         } catch (ExistingAccountException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
@@ -71,11 +75,38 @@ public class UserController {
         }
     }
 
+    @PostMapping("/refresh-token")
+    @Operation(security = {})
+    public ResponseEntity<BaseResponse<AuthResponse>> refreshToken(@RequestBody String refreshToken) {
+        try {
+            var isValid = userService.validateToken(refreshToken, TokenType.REFRESH);
+            if (isValid) {
+                var userId = userService.getIdFromToken(refreshToken, TokenType.REFRESH);
+                var user = userService.getUserById(userId);
+                var token = userService.generateAuthToken(user.getUsername(), user.getId());
+                var authResponse = new AuthResponse(true, token, refreshToken);
+                return ResponseEntity.status(HttpStatus.OK)
+                        .body(new BaseResponse<AuthResponse>(authResponse, HttpStatus.OK.value()));
+            }
+        } catch (ExpiredTokenException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new ErrorResponse<AuthResponse, String>(null, "Refresh token has expired",
+                            HttpStatus.UNAUTHORIZED.value()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ErrorResponse<AuthResponse, String>(null, "Internal server error",
+                            HttpStatus.INTERNAL_SERVER_ERROR.value()));
+        }
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new BaseResponse<AuthResponse>(null, 200));
+    }
+
     @GetMapping("/user-info")
     public ResponseEntity<BaseResponse<UserInfoResponse>> getUserInfo(
             @AuthenticationPrincipal UserDetails userDetails) {
         try {
-            var userId = userDetails.getUsername();
+            var userId = Long.parseLong(userDetails.getUsername());
             var user = userService.getUserById(userId);
             var userInfoResponse = new UserInfoResponse(user.getUsername(), user.getRole());
             return ResponseEntity.status(HttpStatus.OK)

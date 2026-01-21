@@ -2,6 +2,7 @@ package com.example.backend.business.service.interfaces;
 
 import com.example.backend.business.entities.CreateUserDTO;
 import com.example.backend.core.domain.User;
+import com.example.backend.core.enums.TokenType;
 import com.example.backend.core.exceptions.ExistingAccountException;
 import com.example.backend.core.exceptions.ExpiredTokenException;
 import com.example.backend.core.exceptions.NotFoundException;
@@ -11,11 +12,15 @@ public interface IUserService {
 
     User getUserByEmail(String email);
 
-    User getUserById(String id) throws NotFoundException;
+    User getUserById(Long id) throws NotFoundException;
 
     boolean validateUserCredentials(String email, String password);
 
     String generateAuthToken(String email, Long id);
 
-    Boolean validateAuthToken(String token) throws ExpiredTokenException;
+    Boolean validateToken(String token, TokenType tokenType) throws ExpiredTokenException;
+
+    Long getIdFromToken(String token, TokenType tokenType);
+
+    String generateRefreshToken(String email, Long id);
 }
